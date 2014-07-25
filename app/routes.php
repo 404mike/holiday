@@ -15,3 +15,20 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('login' , function(){
+	echo 'login';
+});
+
+Route::get('logout' , function(){
+	echo 'logout';
+});
+
+
+// Route::get('/{user}/' , function($user) {
+// 	echo 'Hello ' . $user;
+// });
+
+Route::resource('facebook' , 'FacebookController');
+
+Route::get('photos/{id}' , array('uses' => 'FacebookController@photos'));

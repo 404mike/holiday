@@ -4,7 +4,8 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+		"facebook/php-sdk-v4" : "4.0.*"
 	},
 	"autoload": {
 		"classmap": [
@@ -16,6 +17,9 @@
 			"app/tests/TestCase.php"
 		]
 	},
+	"psr-4" : {
+        "Facebook\\":"vendor/facebook/php-sdk-v4/src/Facebook/"
+    },
 	"scripts": {
 		"post-install-cmd": [
 			"php artisan clear-compiled",

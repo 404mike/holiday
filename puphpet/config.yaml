@@ -9,7 +9,7 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                fJQCaYKzFb9X:
+                rVrSlEcLcFPO:
                     host: '6993'
                     guest: '22'
         provider:
@@ -32,7 +32,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            PkvDpYhOApUo:
+            1XMx5px172eU:
                 source: ./
                 target: /var/www
                 sync_type: default
@@ -71,7 +71,7 @@ firewall:
     install: '1'
     rules: null
 apache:
-    install: 0
+    install: '1'
     settings:
         user: www-data
         group: www-data
@@ -83,7 +83,7 @@ apache:
         - php
         - rewrite
     vhosts:
-        vePMutZlsE2I:
+        r02XKFaXaavR:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -105,9 +105,9 @@ apache:
     mod_pagespeed: 0
     mod_spdy: 0
 nginx:
-    install: '1'
+    install: 0
     vhosts:
-        0C6ok2nt0bdV:
+        uQx63bjiGc5u:
             server_name: holiday.dev
             server_aliases:
                 - www.holiday.dev
@@ -129,14 +129,19 @@ php:
     modules:
         php:
             - cli
+            - curl
             - intl
             - mcrypt
-            - curl
             - xsl
         pear:
             - HTTP_OAuth
         pecl:
+            - memcache
+            - memcached
             - pecl_http
+            - imagick
+            - intl
+            - oauth
     ini:
         display_errors: On
         error_reporting: '-1'
@@ -160,7 +165,7 @@ mysql:
     root_password: '123'
     adminer: 0
     databases:
-        dqFTJbFuw2Nq:
+        9tDQzqasBOSl:
             grant:
                 - ALL
             name: dbname
