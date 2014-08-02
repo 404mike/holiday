@@ -16,19 +16,9 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('login' , function(){
-	echo 'login';
-});
+Route::get('login', 'LoginController@login');
+Route::get('logout', 'LoginController@logout');
 
-Route::get('logout' , function(){
-	echo 'logout';
-});
-
-
-// Route::get('/{user}/' , function($user) {
-// 	echo 'Hello ' . $user;
-// });
-
-Route::resource('facebook' , 'FacebookController');
+Route::get('facebook' , 'FacebookController@index');
 
 Route::get('photos/{id}' , array('uses' => 'FacebookController@photos'));

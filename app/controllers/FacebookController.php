@@ -74,7 +74,12 @@ class FacebookController extends \BaseController {
 
 		$album_data = $album->asArray();
 
+
 		if(count($album_data) > 0) {
+
+			//echo '<pre>' , print_r($album_data['data'][0]->place) , '</pre>';
+
+
 			echo '<div style="border: 1px solid black;
 					display: block;
 					margin: 20px;
@@ -82,8 +87,11 @@ class FacebookController extends \BaseController {
 					float:left;
 					height:200px;
 					overflow:hidden;
-					width: 200px;">';
-			echo '<a href="/index.php/photos/'.$id.'">' . '<img width="200px" src="'.$album_data['data'][0]->images[2]->source.'" /></a>';
+					width: 600px;">';
+			if(isset($album_data['data'][0]->place)) {
+				echo '<pre>' , print_r($album_data['data'][0]->place) , '</pre>';
+			}
+			echo '<a href="/photos/'.$id.'">' . '<img width="200px" src="'.$album_data['data'][0]->images[2]->source.'" /></a>';
 			echo '</div>';
 			//echo '************************************';	
 		}
@@ -98,9 +106,13 @@ class FacebookController extends \BaseController {
 
 		$album_data =  $pictures->getProperty('data');
 
+
 		echo '<a href="/index.php/facebook" style="display:block;">Back</a>';
 
-		foreach($album_data->asArray() as $row){			
+		foreach($album_data->asArray() as $row){	
+
+
+			echo '<pre>' , print_r($row) ,'</pre>';
 			echo '<div style="border: 1px solid black;
 					display: block;
 					margin: 20px;
@@ -109,9 +121,17 @@ class FacebookController extends \BaseController {
 					height:200px;
 					overflow:hidden;
 					width: 200px;">';
+			echo $row->created_time;
 			echo '<img width="200" src="'.$row->images[3]->source.'" />';
 			echo '</div>';
 		}
+    }
+
+    public function test()
+    {
+    	$data['title'] = 'Welcome to Musicianado';
+		$data['template'] = 'live/main';
+		return View::make('includes/main', array( 'data' => $data) );
     }
 
 }
