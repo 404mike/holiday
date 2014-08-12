@@ -54,6 +54,7 @@ vagrantfile-local:
 server:
     packages:
         - vim
+        - libpcre3-dev
     dot_files:
         -
             bash_aliases: null
@@ -133,8 +134,7 @@ php:
             - intl
             - mcrypt
             - xsl
-        pear:
-            - HTTP_OAuth
+        pear: {  }
         pecl:
             - memcache
             - memcached
@@ -180,8 +180,14 @@ postgresql:
         user_group: postgres
         encoding: UTF8
         version: '9.3'
-    databases: {  }
-    adminer: 0
+    databases:
+        Se2Y48P14jh0:
+            grant: ALL
+            name: holiday
+            user: root
+            password: '123'
+            sql_file: ''
+    adminer: '1'
 mariadb:
     install: 0
     root_password: '123'

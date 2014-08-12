@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+use Facebook\FacebookSession;
+use Facebook\FacebookRequest;
+use Facebook\GraphUser;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookRedirectLoginHelper;
+
 class LoginController extends \BaseController {
 
 	/**
@@ -14,14 +21,14 @@ class LoginController extends \BaseController {
 
 	public function login()
 	{
-    	$data['title'] = 'Welcome to Musicianado';
+    	$data['title'] = 'Login';
 		$data['template'] = 'login/login';
 		return View::make('includes/main', array( 'data' => $data) );
 	}
 
 	public function logout()
 	{
-    	$data['title'] = 'Welcome to Musicianado';
+    	$data['title'] = 'Logout';
 		$data['template'] = 'login/logout';
 		return View::make('includes/main', array( 'data' => $data) );
 	}
@@ -32,9 +39,11 @@ class LoginController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function facebook()
 	{
-		//
+    	$data['title'] = 'Login with Facebook';
+		$data['template'] = 'login/facebook';
+		return View::make('includes/main', array( 'data' => $data) );
 	}
 
 
@@ -43,9 +52,11 @@ class LoginController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function twitter()
 	{
-		//
+    	$data['title'] = 'Login with Twiiter';
+		$data['template'] = 'login/twitter';
+		return View::make('includes/main', array( 'data' => $data) );
 	}
 
 

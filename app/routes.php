@@ -17,8 +17,13 @@ Route::get('/', function()
 });
 
 Route::get('login', 'LoginController@login');
+Route::get('login/facebook', 'LoginController@facebook');
+Route::get('login/twitter', 'LoginController@twitter');
+
+
+
 Route::get('logout', 'LoginController@logout');
 
-Route::get('facebook' , 'FacebookController@index');
+Route::get('facebook' , 'FacebookController@loginWithFacebook');
 
 Route::get('photos/{id}' , array('uses' => 'FacebookController@photos'));

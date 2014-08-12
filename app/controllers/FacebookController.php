@@ -15,7 +15,7 @@ class FacebookController extends \BaseController {
 	public function __construct()
 	{
 		$facebook = FacebookSession::setDefaultApplication('1437671129843796','ca609da430c33464a2c0d56ee60b864e');
-		$this->session = new FacebookSession('CAAUbjeTZCiFQBAFcX8Q3JaaqEcqykYXW2GNQuNIKymsaC1C1DfKsJVaCXtmIpmeScKIderp74ZCkoVR5ZCF4HVy8kqzWNKh8MFeg7bZCiQrdMUNt1yUVfJZC8SPlvDxQ8V9lkSdf5XoBD1vKZBiuugFao5gkf3WZCgHtJGByGGC8EZBZB4YxetMSdRQ0xEJh4j69h4ZCTjbD97ZAdCbTWIiiw6v');
+		$this->session = new FacebookSession('CAAUbjeTZCiFQBAK3eaWjFyEjCQlUwgWCXYs2BHZCdhzz6ZCfBT9o2Us3pjJhZC8DpkIrzFnE6lLv3KqgazwNpS0ZBTi8HaelE0BTbtEUUZBtRBn3DIv4AtsfksKK08xNETmG0tgZC9WOEHrPW8N1c7XAFbo2fdC7Dybfqich2Ie0c9ZAYVKbswZAJkynSI0gz0qieRoeORekfyHbpbFLp7Edx');
 	}
 
 	/**
@@ -91,7 +91,7 @@ class FacebookController extends \BaseController {
 			if(isset($album_data['data'][0]->place)) {
 				echo '<pre>' , print_r($album_data['data'][0]->place) , '</pre>';
 			}
-			echo '<a href="/photos/'.$id.'">' . '<img width="200px" src="'.$album_data['data'][0]->images[2]->source.'" /></a>';
+			//echo '<a href="/photos/'.$id.'">' . '<img width="200px" src="'.$album_data['data'][0]->images[2]->source.'" /></a>';
 			echo '</div>';
 			//echo '************************************';	
 		}
@@ -133,5 +133,64 @@ class FacebookController extends \BaseController {
 		$data['template'] = 'live/main';
 		return View::make('includes/main', array( 'data' => $data) );
     }
+
+    /**
+ * Login user with facebook
+ *
+ * @return void
+ */
+
+public function loginWithFacebook() {
+
+    // get data from input
+    $code = Input::get( 'code' );
+
+    // get fb service
+    $fb = OAuth::consumer( 'Facebook' );
+
+    // check if code is valid
+
+    // if code is provided get user data and sign in
+    if ( !empty( $code ) ) {
+
+        // This was a callback request from facebook, get the token
+        $token = $fb->requestAccessToken( $code );
+
+        echo "Token ";
+
+        $token = (Array) $token;
+
+        $accessToken = '';
+
+        foreach ($token as $obj => $val) {
+        	$accessToken = $val;
+        	break;
+        	//echo '<pre>' , print_r($val) , '</pre>';
+        }
+
+        echo "accessToken $accessToken";
+
+
+        // Send a request with it
+        $result = json_decode( $fb->request( '/me' ), true );
+
+        // $message = 'Your unique facebook user id is: ' . $result['id'] . ' and your name is ' . $result['name'];
+        // echo $message. "<br/>";
+
+        //Var_dump
+        //display whole array().
+        echo '<pre>' , print_r($result) , '</pre>';
+
+    }
+    // if not ask for permission first
+    else {
+        // get fb authorization
+        $url = $fb->getAuthorizationUri();
+
+        // return to facebook login url
+         return Redirect::to( (string)$url );
+    }
+
+}
 
 }
