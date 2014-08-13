@@ -39,19 +39,35 @@ class FacebookController extends \BaseController {
 
 	public function getFacebookLogin()
 	{
+		$helper = new FacebookRedirectLoginHelper('http://holiday.dev/foo');
 		// $session->getAccessToken()
-		try {
-		  $session = $helper->getSessionFromRedirect();
-		  echo 'test 1';
-		} catch(FacebookRequestException $ex) {
-		  // When Facebook returns an error
-		  echo 'test 2';
-		  echo '<pre>' , print_r($ex) , ' </pre>';
-		} catch(\Exception $ex) {
-		  // When validation fails or other local issues
-		  echo 'test 3';
-		  echo '<pre>' , print_r($ex) , ' </pre>';
-		}		
+
+       // $helper = new FacebookRedirectLoginHelper('http://test.dev/index.php/facebook');
+
+        try {
+          $session = $helper->getSessionFromRedirect();
+          echo 'test 1';
+        } catch(FacebookRequestException $ex) {
+          // When Facebook returns an error
+          echo 'test 2';
+          echo '<pre>' , print_r($ex) , ' </pre>';
+        } catch(\Exception $ex) {
+          // When validation fails or other local issues
+          echo 'test 3';
+          echo '<pre>' , print_r($ex) , ' </pre>';
+        }
+        if ($session) {
+          // Logged in
+          echo 'logged in';
+
+          print_r($session->getAccessToken());
+
+
+        }else {
+          echo 'not logged in ';
+          $loginUrl = $helper->getLoginUrl();
+          echo '<a href="'.$loginUrl.'user_photos">Login</a>';
+        }	
 	}
 
 	public function getFacebookFeed($session , $after) {
@@ -179,7 +195,7 @@ public function loginWithFacebook() {
 
         //Var_dump
         //display whole array().
-        echo '<pre>' , print_r($result) , '</pre>';
+       // echo '<pre>' , print_r($result) , '</pre>';
 
     }
     // if not ask for permission first
@@ -191,6 +207,6 @@ public function loginWithFacebook() {
          return Redirect::to( (string)$url );
     }
 
-}
+	}
 
 }

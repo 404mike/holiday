@@ -24,6 +24,31 @@ Route::get('login/twitter', 'LoginController@twitter');
 
 Route::get('logout', 'LoginController@logout');
 
-Route::get('facebook' , 'FacebookController@loginWithFacebook');
+Route::get('home', array('before' => 'auth', 'uses' => 'HomeController@welcome'));
+
+Route::get('foo' , 'FacebookController@getFacebookLogin');
 
 Route::get('photos/{id}' , array('uses' => 'FacebookController@photos'));
+
+
+
+
+
+Route::get('test' , function(){
+
+$user = User::find(1);
+
+Auth::login($user);
+
+});
+
+Route::get('fuck' , function(){
+	if (Auth::check())
+	{
+	    echo 'is logged in';
+	    echo '<pre>' , print_r(Auth::user()) ,'</pre>';
+
+	}else{
+		echo 'not logged in ';
+	}
+});

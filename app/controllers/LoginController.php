@@ -41,11 +41,45 @@ class LoginController extends \BaseController {
 	 */
 	public function facebook()
 	{
-    	$data['title'] = 'Login with Facebook';
-		$data['template'] = 'login/facebook';
-		return View::make('includes/main', array( 'data' => $data) );
-	}
+	    // get data from input
+	    $code = Input::get( 'code' );
 
+	    // get fb service
+	    $fb = OAuth::consumer( 'Facebook' );
+
+	    // check if code is valid
+
+	    // if code is provided get user data and sign in
+	    if ( !empty( $code ) ) {
+
+	        // This was a callback request from facebook, get the token
+	        $token = $fb->requestAccessToken( $code );
+
+	        $token = (Array) $token;
+
+	        $accessToken = '';
+
+	        foreach ($token as $obj => $val) {
+	        	$accessToken = $val;
+	        	break;
+	        }
+
+	        //echo "accessToken $accessToken";
+	        $result = json_decode( $fb->request( '/me' ), true );
+
+	        $fb = Login::facebook( $result['id'] , $accessToken );
+
+	        return Redirect::to('home');
+	    }
+	    // if not ask for permission first
+	    else {
+	        // get fb authorization
+	        $url = $fb->getAuthorizationUri();
+
+	        // return to facebook login url
+	         return Redirect::to( (string)$url );
+	    }
+	}
 
 	/**
 	 * Store a newly created resource in storage.

@@ -20,4 +20,20 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 
+	public function welcome()
+	{
+
+if (Auth::attempt(array('email' => '$email', 'password' => '$password'))) {
+
+}
+
+		echo 'Welcome - ';
+
+		if (Auth::check()) {
+			echo 'yes logged in';
+		}else {
+			echo 'not logged in';
+		}
+	}
+
 }

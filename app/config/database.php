@@ -67,7 +67,7 @@ return array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
 			'database' => 'holiday',
-			'username' => 'postgres',
+			'username' => 'root',
 			'password' => '123',
 			'charset'  => 'utf8',
 			'prefix'   => '',
