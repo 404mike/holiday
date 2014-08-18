@@ -29,6 +29,8 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('home', array('before' => 'auth', 'uses' => 'HomeController@welcome'));
 	Route::get('account/facebook' , 'AccountsController@facebook');
 	Route::get('account/twitter' , 'AccountsController@twitter');
+
+	Route::get('facebookalbums' , 'FacebookController@album');
 });
 
 

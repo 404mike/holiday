@@ -29,6 +29,8 @@ class HomeController extends BaseController {
 
 			if(Auth::user()->facebook_id == '') echo 'Do you want to add a <a href="/account/facebook">facebook account</a>?';
 
+			if(Auth::user()->twitter_id == '') echo 'Do you want to add a <a href="/account/twitter">twitter account</a>?';
+
 		}else {
 			echo 'not logged in';
 		}
