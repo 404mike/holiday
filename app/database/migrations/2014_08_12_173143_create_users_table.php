@@ -20,7 +20,9 @@ class CreateUsersTable extends Migration {
 	        $table->string('password', 60)->nullable();
 	        $table->string('facebook_id', 200)->nullable();
 	        $table->text('facebook_oauth')->nullable();
-	        $table->text('twitter_oauth')->nullable();
+	        $table->text('twitter_id')->nullable();
+	        $table->text('twitter_token')->nullable();
+	        $table->text('twitter_token_secret')->nullable();
 	        $table->text('google_oauth')->nullable();
 	        $table->text('flickr_oauth')->nullable();
 	        $table->text('instagram_oauth')->nullable();

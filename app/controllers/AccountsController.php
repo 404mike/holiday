@@ -1,45 +1,13 @@
 <?php
 
-session_start();
-use Facebook\FacebookSession;
-use Facebook\FacebookRequest;
-use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
-use Facebook\FacebookRedirectLoginHelper;
-
-class LoginController extends \BaseController {
-
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
-
-	public function login()
-	{
-    	$data['title'] = 'Login';
-		$data['template'] = 'login/login';
-		return View::make('includes/main', array( 'data' => $data) );
-	}
-
-	public function logout()
-	{
-    	$data['title'] = 'Logout';
-		$data['template'] = 'login/logout';
-		return View::make('includes/main', array( 'data' => $data) );
-	}
-
+class AccountsController extends \BaseController {
 
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
-	public function loginwithFacebook()
+	public function facebook()
 	{
 	    // get data from input
 	    $code = Input::get( 'code' );
@@ -59,7 +27,7 @@ class LoginController extends \BaseController {
 
 	        $result = json_decode( $fb->request( '/me' ), true );
 
-	        $fb = Login::facebook( $result['id'] , $accessToken );
+	        $fb = Accounts::facebook( $result['id'] , $accessToken );
 
 	        return Redirect::to('home');
 	    }
@@ -78,7 +46,7 @@ class LoginController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function loginWithTwitter() {
+	public function twitter() {
 
 	    // get data from input
 	    $token = Input::get( 'oauth_token' );
@@ -102,7 +70,7 @@ class LoginController extends \BaseController {
 	        // Send a request with it
 	        $result = json_decode( $tw->request( 'account/verify_credentials.json' ), true );
 
-	       	$twitter = Login::twitter( $result['id'] , $accessToken  , $accessTokenSecret);
+	       	$twitter = Accounts::twitter( $result['id'] , $accessToken  , $accessTokenSecret);
 
 	        return Redirect::to('home');
 	    }
@@ -118,53 +86,5 @@ class LoginController extends \BaseController {
 	        return Redirect::to( (string)$url );
 	    }
 	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 
 }

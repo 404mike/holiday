@@ -17,38 +17,19 @@ Route::get('/', function()
 });
 
 Route::get('login', 'LoginController@login');
-Route::get('login/facebook', 'LoginController@facebook');
-Route::get('login/twitter', 'LoginController@twitter');
-
-
-
+Route::get('login/facebook', 'LoginController@loginwithFacebook');
+Route::get('login/twitter', 'LoginController@loginWithTwitter');
 Route::get('logout', 'LoginController@logout');
 
-Route::get('home', array('before' => 'auth', 'uses' => 'HomeController@welcome'));
 
-Route::get('foo' , 'FacebookController@getFacebookLogin');
+
+
+Route::group(array('before' => 'auth'), function()
+{
+	Route::get('home', array('before' => 'auth', 'uses' => 'HomeController@welcome'));
+	Route::get('account/facebook' , 'AccountsController@facebook');
+	Route::get('account/twitter' , 'AccountsController@twitter');
+});
+
 
 Route::get('photos/{id}' , array('uses' => 'FacebookController@photos'));
-
-
-
-
-
-Route::get('test' , function(){
-
-$user = User::find(1);
-
-Auth::login($user);
-
-});
-
-Route::get('fuck' , function(){
-	if (Auth::check())
-	{
-	    echo 'is logged in';
-	    echo '<pre>' , print_r(Auth::user()) ,'</pre>';
-
-	}else{
-		echo 'not logged in ';
-	}
-});

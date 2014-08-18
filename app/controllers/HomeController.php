@@ -22,15 +22,13 @@ class HomeController extends BaseController {
 
 	public function welcome()
 	{
-
-if (Auth::attempt(array('email' => '$email', 'password' => '$password'))) {
-
-}
-
 		echo 'Welcome - ';
 
 		if (Auth::check()) {
-			echo 'yes logged in';
+			echo 'yes logged in <br />';
+
+			if(Auth::user()->facebook_id == '') echo 'Do you want to add a <a href="/account/facebook">facebook account</a>?';
+
 		}else {
 			echo 'not logged in';
 		}
