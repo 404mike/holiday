@@ -17,23 +17,16 @@ class HomeController extends BaseController {
 
 	public function showWelcome()
 	{
-		return View::make('hello');
+    	$data['title'] = 'Holiday';
+		$data['template'] = 'frontpage/main';
+		return View::make('includes/main', array( 'data' => $data) );
 	}
 
 	public function welcome()
 	{
-		echo 'Welcome - ';
-
-		if (Auth::check()) {
-			echo 'yes logged in <br />';
-
-			if(Auth::user()->facebook_id == '') echo 'Do you want to add a <a href="/account/facebook">facebook account</a>?';
-
-			if(Auth::user()->twitter_id == '') echo 'Do you want to add a <a href="/account/twitter">twitter account</a>?';
-
-		}else {
-			echo 'not logged in';
-		}
+    	$data['title'] = 'Home';
+		$data['template'] = 'home/main';
+		return View::make('includes/main', array( 'data' => $data) );
 	}
 
 }

@@ -1,5 +1,12 @@
-<h2>Login</h2>
 
-<a href="/login/facebook">Login with facebook</a>
-<br /><br /><br />
-<a href="/login/twitter">Login with Twitter</a>
+<a href="/login/facebook" class="btn btn-block btn-social btn-facebook">
+	<i class="fa fa-facebook"></i> Sign in with Facebook
+</a>
+
+<a href="/login/twitter" class="btn btn-block btn-social btn-twitter">
+	<i class="fa fa-twitter"></i> Sign in with Twitter
+</a>
+
+<a class="btn btn-block btn-social btn-google-plus">
+	<i class="fa fa-google-plus"></i> Sign in with Google
+</a>

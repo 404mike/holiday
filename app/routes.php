@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', 'HomeController@showWelcome');
 
 Route::get('login', 'LoginController@login');
 Route::get('login/facebook', 'LoginController@loginwithFacebook');
@@ -30,7 +27,10 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('account/facebook' , 'AccountsController@facebook');
 	Route::get('account/twitter' , 'AccountsController@twitter');
 
-	Route::get('facebookalbums' , 'FacebookController@album');
+	Route::get('upload/facebookalbums' , 'FacebookController@main');
+	Route::get('upload/facebookalbums/next/{next?}' , array('uses' => 'FacebookController@nextAlbum'));
+
+	Route::get('upload' , 'UploadsController@upload');
 });
 
 
