@@ -28,7 +28,11 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('account/twitter' , 'AccountsController@twitter');
 
 	Route::get('upload/facebookalbums' , 'FacebookController@main');
+	Route::get('upload/facebookalbums/album/{id}' , 'FacebookController@album');
 	Route::get('upload/facebookalbums/next/{next?}' , array('uses' => 'FacebookController@nextAlbum'));
+
+
+	Route::get('twitter' , 'FacebookController@twitter');
 
 	Route::get('upload' , 'UploadsController@upload');
 });

@@ -6,6 +6,14 @@ body {
   text-align: center;
 }
 
+.btn-file{color:#fff;background-color:#BFD684;;border-color:rgba(0,0,0,0.2)}
+.btn-file:hover,.btn-file:focus,.btn-file:active,
+.btn-file.active,.open>.dropdown-toggle.btn-file{color:#fff;background-color:#AEBF82;border-color:rgba(0,0,0,0.2)}
+.btn-file:active,.btn-file.active,.open>.dropdown-toggle.btn-file{background-image:none}
+.btn-file.disabled,.btn-file[disabled],fieldset[disabled] .btn-file,.btn-file.disabled:hover,.btn-file[disabled]:hover,fieldset[disabled] .btn-file:hover,.btn-file.disabled:focus,.btn-file[disabled]:focus,fieldset[disabled] .btn-file:focus,.btn-file.disabled:active,.btn-file[disabled]:active,fieldset[disabled] .btn-file:active,.btn-file.disabled.active,.btn-file[disabled].active,fieldset[disabled] .btn-file.active{background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
+.btn-file .badge{color:#3b5998;background-color:#fff}
+
+
 .facebookalbum {
 	height: 300px;
 	float: left;
@@ -18,4 +26,19 @@ body {
 .facebookalbum img {
 	width: 200px;
 	height: 200px;
+}
+
+.single_fb_photo{
+	width:620px;
+	margin: 10px auto;
+	padding: 10px;
+	border: 1px solid #ccc;
+}
+
+.single_fb_photo span{
+	display: block;
+}
+
+.single_fb_photo img{
+	width: 600px;
 }

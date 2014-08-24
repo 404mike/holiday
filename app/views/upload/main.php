@@ -1,6 +1,8 @@
 <h2>Please choose from one of the following options to create a new story</h2>
 
-
+<a href="/upload/file" class="btn btn-block btn-social btn-file">
+	<i class="fa fa-camera-retro fa-3x"></i> Upload your own pictures
+</a>
 <a href="/upload/facebookalbums" class="btn btn-block btn-social btn-facebook">
 	<i class="fa fa-facebook"></i> Create new story from Facebook album
 </a>

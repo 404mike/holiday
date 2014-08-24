@@ -3,6 +3,12 @@
 class FacebookController extends \BaseController {
 
 	private $session;
+	private $fbPhotos;
+
+	public function __construct()
+	{
+		$this->fbPhotos = array();
+	}
 
 	public function main()
 	{
@@ -23,8 +29,6 @@ class FacebookController extends \BaseController {
 
 		$result = json_decode( $fb->request( '/me/albums?limit=1' . $afterQuery ), true );
 
-		//echo '<pre>' , print_r($result) ,'</pre>';
-
 		if(count($result['data']) == 0) {
 			$res['next'] = '';
 			return json_encode($res);
@@ -32,17 +36,9 @@ class FacebookController extends \BaseController {
 		
 		$next = $result['paging']['cursors']['after'];
 
-
 		$res = self::getAlbumCover($result['data'][0]['id']);
-		// foreach($result['data'] as $album) {
-		// 	$res = self::getAlbumCover($album['id']);
-		// }
 
 		$res['next'] = $next;
-
-		//echo '<pre>' , print_r($res) ,'</pre>';
-
-		//$data['album'] = json_encode($res);
 
 		return json_encode($res);
 
@@ -55,8 +51,6 @@ class FacebookController extends \BaseController {
 
 		try{
 			$result = json_decode( $fb->request( "/$id/photos?limit=1" ) , true );	
-
-			//echo '<pre>' , print_r($result['data'][0]['images']) , '</pre>';
 
 			$images = $result['data'][0]['images'][0];
 
@@ -74,7 +68,83 @@ class FacebookController extends \BaseController {
 
 		}catch (Exception $e){
 		}
+	}
+
+	public function album( $id ) 
+	{
+
+		$photos = self::getAlbumPhotos($id);
+
+		//echo '<pre>' , print_r($this->fbPhotos) , '</pre>';
+
+    	$data['title'] = 'Upload';
+		$data['template'] = 'upload/facebook_album';
+
+		$data['images'] = $this->fbPhotos;
+
+		return View::make('includes/main', array( 'data' => $data) );	
+	}
+
+	public function getAlbumPhotos($id , $after='')
+	{
+		$fb = OAuth::consumer( 'Facebook' );
+
+		if($after != '') {
+			$afterQuery = '?after='.$after;
+		}else{
+			$afterQuery = '';
+		}
+
+		$result = json_decode( $fb->request( "/$id/photos" . $afterQuery) , true );	
+
+		$arr = array();
+
+		foreach($result['data'] as $res) {
+
+			$data['id'] = $res['id'];
+			$data['image'] = $res['images'][1]['source'];
+			$data['created_time'] = $res['created_time'];
+			if(isset($res['place'])) {
+				$data['location'] = $res['place']['name'];
+				$data['latitude'] = $res['place']['location']['latitude'];
+				$data['longitude'] = $res['place']['location']['longitude'];				
+			}
+
+
+			array_push($this->fbPhotos, $data);
+
+		}
+		if( isset($result['paging']['cursors']['after'])) {
+			self::getAlbumPhotos($id , $result['paging']['cursors']['after']);
+		}
+		// if(array_key_exists($result['paging']['cursors']['after'])) {
+		// 	self::getAlbumPhotos($id , $result['paging']['cursors']['after']);
+		// }
+
+		//echo '<pre>' , print_r($result) ,'</pre>';
 		
+	}
+
+	public function twitter()
+	{    
+		// get twitter service
+	    $tw = OAuth::consumer( 'Twitter' );
+	    $result = json_decode( $tw->request( 'statuses/user_timeline.json?since=2013-01-12&until=2013-07-12' ), true );
+
+	    // statuses/user_timeline.json?
+	    // include_entities=true&
+	    // inc‌​lude_rts=true&
+	    // screen_name={screen_name}&
+	    // since:2011-05-16&
+	    // until:2011-08-16
+
+	    foreach($result as $res) 
+	    {
+	    	echo '<pre>' , print_r($res['text']) ,'</pre>';
+	    } 
+	    
+
+
 	}
 
 }
