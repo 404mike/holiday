@@ -82,6 +82,15 @@ class FacebookController extends \BaseController {
 
 		$data['images'] = $this->fbPhotos;
 
+		$start = $this->fbPhotos[0];
+		$end = end($this->fbPhotos);
+
+		$tweets = Twitter::main($start['created_time'] , $end['created_time']);
+
+		echo $tweets;
+
+		echo '<pre>' , print_r($data['images']) , '</pre>';
+
 		return View::make('includes/main', array( 'data' => $data) );	
 	}
 
@@ -103,7 +112,7 @@ class FacebookController extends \BaseController {
 
 			$data['id'] = $res['id'];
 			$data['image'] = $res['images'][1]['source'];
-			$data['created_time'] = $res['created_time'];
+			$data['created_time'] = strtotime($res['created_time']);
 			if(isset($res['place'])) {
 				$data['location'] = $res['place']['name'];
 				$data['latitude'] = $res['place']['location']['latitude'];
@@ -116,35 +125,7 @@ class FacebookController extends \BaseController {
 		}
 		if( isset($result['paging']['cursors']['after'])) {
 			self::getAlbumPhotos($id , $result['paging']['cursors']['after']);
-		}
-		// if(array_key_exists($result['paging']['cursors']['after'])) {
-		// 	self::getAlbumPhotos($id , $result['paging']['cursors']['after']);
-		// }
-
-		//echo '<pre>' , print_r($result) ,'</pre>';
-		
-	}
-
-	public function twitter()
-	{    
-		// get twitter service
-	    $tw = OAuth::consumer( 'Twitter' );
-	    $result = json_decode( $tw->request( 'statuses/user_timeline.json?since=2013-01-12&until=2013-07-12' ), true );
-
-	    // statuses/user_timeline.json?
-	    // include_entities=true&
-	    // inc‌​lude_rts=true&
-	    // screen_name={screen_name}&
-	    // since:2011-05-16&
-	    // until:2011-08-16
-
-	    foreach($result as $res) 
-	    {
-	    	echo '<pre>' , print_r($res['text']) ,'</pre>';
-	    } 
-	    
-
-
+		}		
 	}
 
 }

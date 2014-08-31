@@ -35,6 +35,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('twitter' , 'TwitterController@main');
 
 	Route::get('upload' , 'UploadsController@upload');
+	Route::get('upload/file' , 'UploadsController@file');
 });
 
 

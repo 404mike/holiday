@@ -9,4 +9,11 @@ class UploadsController extends \BaseController {
 		return View::make('includes/main', array( 'data' => $data) );
 	}
 
+	public function file()
+	{
+    	$data['title'] = 'Upload';
+		$data['template'] = 'upload/file';
+		return View::make('includes/main', array( 'data' => $data) );		
+	}
+
 }
