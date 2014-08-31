@@ -6,6 +6,8 @@ configValues = YAML.load_file("#{dir}/puphpet/config.yaml")
 data = configValues['vagrantfile-local']
 
 Vagrant.configure("2") do |config|
+
+  config.vm.network :forwarded_port, guest: 9200, host: 9200
   config.vm.box = "#{data['vm']['box']}"
   config.vm.box_url = "#{data['vm']['box_url']}"
 

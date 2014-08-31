@@ -32,7 +32,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('upload/facebookalbums/next/{next?}' , array('uses' => 'FacebookController@nextAlbum'));
 
 
-	Route::get('twitter' , 'FacebookController@twitter');
+	Route::get('twitter' , 'TwitterController@main');
 
 	Route::get('upload' , 'UploadsController@upload');
 });

@@ -70,7 +70,17 @@ mailcatcher:
         log_path: /var/log/mailcatcher/mailcatcher.log
 firewall:
     install: '1'
-    rules: null
+    rules:
+        Sh2ABK44XaNU:
+            port: '9200'
+            priority: '100'
+            proto: tcp
+            action: accept
+        CYWj2edaT1iF:
+            port: '1080'
+            priority: '100'
+            proto: tcp
+            action: accept
 apache:
     install: '1'
     settings:
