@@ -16,4 +16,9 @@ class UploadsController extends \BaseController {
 		return View::make('includes/main', array( 'data' => $data) );		
 	}
 
+	public function postFile()
+	{
+		Upload::uploadFile($_FILES);
+	}
+
 }

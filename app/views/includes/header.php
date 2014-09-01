@@ -11,6 +11,7 @@
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/bootstrap-social.css" rel="stylesheet">
+    <link href="/packages/upload/css/style.css" rel="stylesheet">
 
 
 

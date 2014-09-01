@@ -36,6 +36,7 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('upload' , 'UploadsController@upload');
 	Route::get('upload/file' , 'UploadsController@file');
+	Route::post('upload/file/post' , 'UploadsController@postFile');
 });
 
 
