@@ -39,5 +39,26 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('upload/file/post' , 'UploadsController@postFile');
 });
 
+Route::get('data' , function(){
+	$client = new Elasticsearch\Client();
+	$params = array();
+	$params['body']  = array('testField' => 'abc' , 'think' => 'sdfs', 'foo' => array('one'=>'two'));
+	$params['index'] = 'my_index';
+	$params['type']  = 'my_type';
+	$params['id']    = 'my_id';
+	$ret = $client->index($params);
+});
+
+Route::get('fetch' , function(){
+	$client = new Elasticsearch\Client();
+    $getParams = array();
+    $getParams['index'] = 'my_index';
+    $getParams['type']  = 'my_type';
+    $getParams['id']    = 'my_id';
+    $retDoc = $client->get($getParams);
+
+    echo '<pre>' , print_r($retDoc) , '</pre>';
+
+});
 
 Route::get('photos/{id}' , array('uses' => 'FacebookController@photos'));
