@@ -46,7 +46,7 @@ class Twitter extends Eloquent implements UserInterface, RemindableInterface {
 	    	}	    	
 	    } 
 	    
-	    return json_encode($tweets);
+	    return $tweets;
 	}
 
 

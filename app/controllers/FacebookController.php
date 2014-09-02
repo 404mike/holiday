@@ -87,7 +87,10 @@ class FacebookController extends \BaseController {
 
 		$tweets = Twitter::main($start['created_time'] , $end['created_time']);
 
-		echo $tweets;
+		echo '<pre>' , print_r($tweets) ,'</pre>';
+
+		$feed = Facebook::feed($start['created_time'] , $end['created_time']);
+		echo '<pre>' , print_r($feed) , '</pre>';
 
 		echo '<pre>' , print_r($data['images']) , '</pre>';
 
@@ -111,7 +114,7 @@ class FacebookController extends \BaseController {
 		foreach($result['data'] as $res) {
 
 			$data['id'] = $res['id'];
-			$data['image'] = $res['images'][1]['source'];
+			$data['image'] = $res['images'][0]['source'];
 			$data['created_time'] = strtotime($res['created_time']);
 			if(isset($res['place'])) {
 				$data['location'] = $res['place']['name'];

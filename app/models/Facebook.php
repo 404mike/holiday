@@ -23,9 +23,25 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
-	public function test()
+	public static function feed( $start='' , $end='' )
 	{
-		return '';
+		$start = strtotime('-2 days', $start);
+		$end = strtotime('+2 days', $end);
+		$fb = OAuth::consumer( 'Facebook' );
+		// Log::info('/me/feed?fields=message,picture&since='.$start.'&until='.$end.'&limit=200');
+		$result = json_decode( $fb->request( '/me/feed?fields=message,picture&since='.$start.'&until='.$end.'&limit=200' ), true );
+		
+		$feed = array();
+
+		foreach($result['data'] as $res){
+			if(isset($res['message'])) {
+				array_push($feed, $res);
+			}
+		}
+
+		// Log::info($result);
+
+		return $feed;
 	}
 
 }

@@ -42,14 +42,39 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 
 		    if(move_uploaded_file($file['upl']['tmp_name'], '/var/www/app/storage/photos/'.$newFilename)){
 
-		        echo '{"status":"success"}';
+		        //echo '{"status":"success"}';
 		        // $exif = exif_read_data('/var/www/app/storage/photos/'.$newFilename);
 		        // Log::info($exif);
 
 
-				$exif = exif_read_data('/var/www/app/storage/photos/'.$newFilename);
-				$lon = self::getGps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
-				$lat = self::getGps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);
+				$exif = @exif_read_data('/var/www/app/storage/photos/'.$newFilename);
+
+
+				
+
+				if(isset($exif["DateTime"])) {
+					$dateCreated = $exif["DateTime"];
+				}else{
+					$dateCreated = '';
+				}
+
+
+				if(isset($exif["GPSLongitude"])) {
+					$lon = self::getGps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
+					$lat = self::getGps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);				
+				}else{
+					$lon = '';
+					$lat = '';
+				}
+
+				echo 
+				'{
+					"filename":"'.$newFilename.'",
+					"date":"'.$dateCreated.'",
+					"lon":"'.$lon.'"
+					"lat":"'.$lat.'"
+				}';
+
 				Log::info($lat . '  ' . $lon);
 
 		        exit;
