@@ -44,16 +44,16 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 
 		        //echo '{"status":"success"}';
 		        // $exif = exif_read_data('/var/www/app/storage/photos/'.$newFilename);
-		        // Log::info($exif);
+		         
 
 
 				$exif = @exif_read_data('/var/www/app/storage/photos/'.$newFilename);
 
-
+				// Log::info($exif);
 				
 
 				if(isset($exif["DateTime"])) {
-					$dateCreated = $exif["DateTime"];
+					$dateCreated = strtotime($exif["DateTime"]);
 				}else{
 					$dateCreated = '';
 				}
