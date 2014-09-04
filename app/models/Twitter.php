@@ -40,6 +40,7 @@ class Twitter extends Eloquent implements UserInterface, RemindableInterface {
 	    	$tweet['tweet'] = $res['text'];
 	    	$tweet['user'] =  $res['user']['screen_name'];
 	    	$tweet['tweed_id'] = $res['id'];
+	    	$tweet['type'] = 'tweet';
 
 	    	if($tweet['created_at'] > $start && $tweet['created_at'] < $end) {
 	    		array_push($tweets, $tweet);

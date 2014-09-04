@@ -53,7 +53,7 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 				
 
 				if(isset($exif["DateTime"])) {
-					$dateCreated = strtotime($exif["DateTime"]);
+					$dateCreated = strtotime($exif["DateTimeOriginal"]);
 				}else{
 					$dateCreated = '';
 				}

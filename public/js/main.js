@@ -38,31 +38,25 @@ $('document').ready(function(){
 	/**
 	 *
 	 */
-	if ($("#create_new_story").length > 0){
-
-	}
 
 	$('#create_new_story').click(function(){
 
-
 		$('#upload').hide();
 
-	   $.ajax({
-        url: '/funk',
-        type: 'POST',
-       	data: { images: imageData },
-        async: true,
-        cache: false,
-        timeout: 30000,
-        error: function(){
-            return true;
-        },
-        success: function(msg){ 
-        	console.log(msg);
-
-        	$('#upload_response').append(msg)
-        }
-    });	
+		$.ajax({
+			url: '/fileinfo',
+			type: 'POST',
+			data: { images: imageData },
+			async: true,
+			cache: false,
+			timeout: 30000,
+			error: function(){
+			    return true;
+			},
+			success: function(msg){ 
+				$('#upload_response').append(msg);
+			}
+		});	
 	});
 
 });

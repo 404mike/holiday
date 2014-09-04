@@ -25,8 +25,8 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 
 	public static function feed( $start='' , $end='' )
 	{
-		$start = strtotime('-7 days', $start);
-		$end = strtotime('+7 days', $end);
+		$start = strtotime('-2days', $start);
+		$end = strtotime('+2 days', $end);
 		$fb = OAuth::consumer( 'Facebook' );
 		// Log::info('/me/feed?fields=message,picture&since='.$start.'&until='.$end.'&limit=200');
 		$result = json_decode( $fb->request( '/me/feed?fields=message,picture,place&since='.$start.'&until='.$end.'&limit=200' ), true );

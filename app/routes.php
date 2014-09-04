@@ -34,18 +34,9 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('create' , 'UploadsController@createFileUpload');
 	Route::get('create/{type?}/{id?}' , 'UploadsController@createSocialUpload');
 
+	Route::post('fileinfo' , 'UploadsController@getAllData');
+
 	Route::post('upload/file/post' , 'UploadsController@postFile');
 
 
 });
-
-
-	Route::post('funk' , function(){
-
-		foreach($_POST['images'] as $img) {
-			$data = json_decode($img);
-			//$e = json_decode($data);
-			echo $data->date ." ";
-		}
-
-	});
