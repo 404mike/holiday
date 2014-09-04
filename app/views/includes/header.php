@@ -40,7 +40,7 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/home">Home</a></li>
             <li><a href="/login">Login</a></li>
-            <li><a href="/upload">Upload</a></li>
+            <li><a href="/newstory">Create new story</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

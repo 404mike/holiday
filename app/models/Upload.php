@@ -22,7 +22,7 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 
 		// Log::info($file);
 		// A list of permitted file extensions
-		$allowed = array('png', 'jpg', 'gif','zip');
+		$allowed = array('png', 'jpg', 'gif','zip' ,'JPG');
 
 		if(isset($file['upl']) && $file['upl']['error'] == 0){
 
@@ -71,7 +71,7 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 				'{
 					"filename":"'.$newFilename.'",
 					"date":"'.$dateCreated.'",
-					"lon":"'.$lon.'"
+					"lon":"'.$lon.'" ,
 					"lat":"'.$lat.'"
 				}';
 

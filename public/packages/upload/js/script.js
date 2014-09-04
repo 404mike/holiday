@@ -1,6 +1,11 @@
 $(function(){
 
     var ul = $('#upload ul');
+    var totalImages = 0;
+
+    // array to store image data returned from upload
+    // will hold filename, date, lon, lat
+    imageData = [];
 
     $('#drop a').click(function(){
         // Simulate a click on the file input button
@@ -17,6 +22,11 @@ $(function(){
         // This function is called when a file is added to the queue;
         // either via the browse button, or via drag/drop:
         add: function (e, data) {
+
+            if(totalImages == 0) {
+                totalImages = 1;
+                $('#create_new_story').show();
+            }
 
             var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"'+
                 ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
@@ -68,7 +78,9 @@ $(function(){
         },
 
         done:function(e,data) {
-            console.log(data.result)
+            // console.log(data.result)
+            imageData.push(data.result);
+            // console.log(imageData)
         }
 
     });
