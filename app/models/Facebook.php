@@ -29,13 +29,28 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 		$end = strtotime('+2 days', $end);
 		$fb = OAuth::consumer( 'Facebook' );
 		// Log::info('/me/feed?fields=message,picture&since='.$start.'&until='.$end.'&limit=200');
-		$result = json_decode( $fb->request( '/me/feed?fields=message,picture,place&since='.$start.'&until='.$end.'&limit=200' ), true );
+		$result = json_decode( 
+			$fb->request( '/me/feed?fields=message,picture,place&since='.$start.'&until='.$end.'&limit=200' ), 
+			true );
 		
 		$feed = array();
 
 		foreach($result['data'] as $res){
 			if(isset($res['message'])) {
-				array_push($feed, $res);
+				$fb = array();
+				$fb['type'] = 'facebookfeed';
+				$fb['message'] = $res['message'];
+				if(isset($res['picture'])) {
+					$fb['picture'] = $res['picture'];
+				}				
+				$fb['created_at'] = strtotime($res['created_time']);
+				if(isset($res['place'])){
+					$fb['place'] = $res['place'];
+				}
+
+				//echo '<pre>' , print_r($res) , '</pre>';
+
+				array_push($feed, $fb);
 			}
 		}
 
@@ -45,3 +60,4 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 }
+

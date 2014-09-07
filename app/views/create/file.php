@@ -1,19 +1,18 @@
 		
-		<span id="create_new_story" style="display:none">Finish?</span>
+	<span id="create_new_story" style="display:none">Finish?</span>
 
+	<form id="upload" method="post" action="/upload/file/post" enctype="multipart/form-data">
+		<div id="drop">
+			Drop Here
 
-		<div id="upload_response"></div>
+			<a>Browse</a>
+			<input type="file" name="upl" multiple />
+		</div>
 
-		<form id="upload" method="post" action="/upload/file/post" enctype="multipart/form-data">
-			<div id="drop">
-				Drop Here
+		<ul>
+			<!-- The file uploads will be shown here -->
+		</ul>
 
-				<a>Browse</a>
-				<input type="file" name="upl" multiple />
-			</div>
+	</form>
 
-			<ul>
-				<!-- The file uploads will be shown here -->
-			</ul>
-
-		</form>
+	<div id="final_data"></div>

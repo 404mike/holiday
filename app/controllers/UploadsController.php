@@ -91,20 +91,21 @@ class UploadsController extends \BaseController {
 			$data = json_decode($img);
 
 			// add date information 
-			array_push($date, $data->date);
+			if(isset($data->date) && isset($data->filename)){
+				array_push($date, $data->date);
 
-			// add image information
-			array_push($images, array(
-				'type' 		=> 'image' ,
-				'picture' 	=> $data->filename ,
-				'blurb' 	=> '' ,
-				'created_at'=> date('Y-m-d',$data->date) ,
-				'longitude' => $data->lon ,
-				'latitude' 	=> $data->lat
+				// add image information
+				array_push($images, array(
+					'type' 		=> 'image' ,
+					'picture' 	=> $data->filename ,
+					'blurb' 	=> '' ,
+					'created_at'=> $data->date ,
+					'longitude' => $data->lon ,
+					'latitude' 	=> $data->lat
 				));
-		}
+			}
 
-		echo '<pre>' , print_r($images) , '</pre>';
+		}
 
 		// sort the array
 		sort($date , SORT_NUMERIC);
@@ -114,12 +115,9 @@ class UploadsController extends \BaseController {
 		// timestamp of the last image
 		$end = end($date);
 
-
 		// Twitter
 		if(Auth::user()->twitter_id != '') {
-			$tweets = Twitter::main( $start , $end );
-
-			echo '<pre>' , print_r($tweets) , ' </pre>';			
+			$tweets = Twitter::main( $start , $end );	
 		}else {
 			$tweets = array();
 		}
@@ -127,18 +125,29 @@ class UploadsController extends \BaseController {
 		// Facebook
 		if(Auth::user()->facebook_id != '') {
 			$fbFeed = Facebook::feed($start , $end);
-			echo '<pre>' , print_r($fbFeed) , ' </pre>';	
 		}else{
 			$fbFeed = array();
 		}
+
+		$finalData = self::mergeData($images , $tweets , $fbFeed);
+
+		// Log::info($finalData);
+
+		return Response::json($finalData);
 	}
 
 	/**
 	 *
 	 */
-	public function mergeData() 
+	public function mergeData( $image , $tweet = '' , $fbFeed = '') 
 	{
+		$mergeData = array_merge($image , $tweet , $fbFeed);
 
+		usort($mergeData, function($a, $b) {
+		    return $a['created_at'] - $b['created_at'];
+		});
+
+		return $mergeData;
 	}
 
 

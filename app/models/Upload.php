@@ -20,6 +20,11 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		// Log::info('Called');
 
+		// Log::info('fileuplaoded');
+		// Log::info($file);
+		// Log::info('end');
+		// die();
+
 		// Log::info($file);
 		// A list of permitted file extensions
 		$allowed = array('png', 'jpg', 'gif','zip' ,'JPG');
@@ -49,13 +54,13 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 
 				$exif = @exif_read_data('/var/www/app/storage/photos/'.$newFilename);
 
-				// Log::info($exif);
+				//Log::info($exif);
 				
 
 				if(isset($exif["DateTime"])) {
 					$dateCreated = strtotime($exif["DateTimeOriginal"]);
 				}else{
-					$dateCreated = '';
+					$dateCreated = '1111111111';
 				}
 
 
@@ -76,12 +81,13 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 				}';
 
 				Log::info($lat . '  ' . $lon);
+				Log::info('Date ' . $dateCreated);
 
 		        exit;
 		    }
 		}
 
-		// Log::info('something is wrong');
+		// Log::info('something is wrong with ');
 
 		echo '{"status":"error"}';
 		exit;

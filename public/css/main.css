@@ -42,3 +42,14 @@ body {
 .single_fb_photo img{
 	width: 600px;
 }
+
+.story_image, .story_tweet, .story_fbfeed {
+	display: block;
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin: 10px;
+}
+
+.story_image img, .story_tweet img, .story_fbfeed img {
+	width: 600px;
+}
