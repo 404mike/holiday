@@ -47,7 +47,7 @@ class Twitter extends Eloquent implements UserInterface, RemindableInterface {
 	    	}	    	
 	    } 
 
-	    Log::info($tweets);
+	    // Log::info($tweets);
 	    
 	    return $tweets;
 	}

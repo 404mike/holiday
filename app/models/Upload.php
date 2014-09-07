@@ -18,20 +18,10 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 
 	public static function uploadFile( $file )
 	{
-		// Log::info('Called');
-
-		// Log::info('fileuplaoded');
-		// Log::info($file);
-		// Log::info('end');
-		// die();
-
-		// Log::info($file);
 		// A list of permitted file extensions
 		$allowed = array('png', 'jpg', 'gif','zip' ,'JPG');
 
 		if(isset($file['upl']) && $file['upl']['error'] == 0){
-
-			// Log::info('if one');
 
 		    $extension = pathinfo($file['upl']['name'], PATHINFO_EXTENSION);
 
@@ -40,22 +30,12 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 		        exit;
 		    }
 
-		    // Log::info('before rename');
 			$newFilename = self::generateRandomString() . '.' . $extension;
 
-			// Log::info('Extension ' . $extension);
 
 		    if(move_uploaded_file($file['upl']['tmp_name'], '/var/www/app/storage/photos/'.$newFilename)){
 
-		        //echo '{"status":"success"}';
-		        // $exif = exif_read_data('/var/www/app/storage/photos/'.$newFilename);
-		         
-
-
-				$exif = @exif_read_data('/var/www/app/storage/photos/'.$newFilename);
-
-				//Log::info($exif);
-				
+				$exif = @exif_read_data('/var/www/app/storage/photos/'.$newFilename);				
 
 				if(isset($exif["DateTime"])) {
 					$dateCreated = strtotime($exif["DateTimeOriginal"]);
@@ -80,8 +60,8 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 					"lat":"'.$lat.'"
 				}';
 
-				Log::info($lat . '  ' . $lon);
-				Log::info('Date ' . $dateCreated);
+				// Log::info($lat . '  ' . $lon);
+				// Log::info('Date ' . $dateCreated);
 
 		        exit;
 		    }

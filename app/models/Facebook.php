@@ -30,20 +30,26 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 		$fb = OAuth::consumer( 'Facebook' );
 		// Log::info('/me/feed?fields=message,picture&since='.$start.'&until='.$end.'&limit=200');
 		$result = json_decode( 
-			$fb->request( '/me/feed?fields=message,picture,place&since='.$start.'&until='.$end.'&limit=200' ), 
+			$fb->request( '/me/feed?fields=message,picture,place,object_id&since='.$start.'&until='.$end.'&limit=200' ), 
 			true );
 		
 		$feed = array();
 
 		foreach($result['data'] as $res){
+
 			if(isset($res['message'])) {
 				$fb = array();
 				$fb['type'] = 'facebookfeed';
 				$fb['message'] = $res['message'];
-				if(isset($res['picture'])) {
-					$fb['picture'] = $res['picture'];
-				}				
+
+				if(isset($res['picture']) && isset($res['object_id'])) {
+					// Log::info($res);
+					// Log::info('Calling get picture ' . $res['object_id']);
+					$fb['picture'] = self::getLargeFeedPicture($res['object_id']);
+				}
+						
 				$fb['created_at'] = strtotime($res['created_time']);
+
 				if(isset($res['place'])){
 					$fb['place'] = $res['place'];
 				}
@@ -57,6 +63,19 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 		// Log::info($result);
 
 		return $feed;
+	}
+
+	public static function getLargeFeedPicture($object_id)
+	{
+		$fb = OAuth::consumer( 'Facebook' );
+		// Log::info('Error check ' . $object_id);
+		try{
+			$result = json_decode( $fb->request( '/' . $object_id . '?fields=images'), true );	
+			return $result['images'][0]['source'];		
+		}catch(Exception $e){
+			return '';
+		}
+
 	}
 
 }

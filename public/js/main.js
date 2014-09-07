@@ -66,7 +66,6 @@ $('document').ready(function(){
 		});	
 	});
 
-
 	create_story = {
 
 		photo : function (data) {
@@ -89,31 +88,14 @@ $('document').ready(function(){
 				feed += '<img src="'+data.picture+'" />';
 			}
 			if(data.message) {
-				feed += '<p>'+data.message+'</p>'
+				feed += '<p>'+data.message+'</p>';
 			}
 			if(data.place) {
 				feed += '<p>'+data.place.name+'</p>';
+				feed += '<p>'+data.place.location.city+'</p>';
+				feed += '<p>'+data.place.location.country+'</p>';
 			}
 
-// 	 picture
-//   array (
-//     'message' => 'Wow! Absolutely insane.',
-//     'place' => 
-//     array (
-//       'id' => '351780761522923',
-//       'name' => 'Clubhouse Virgin Atlantic',
-//       'location' => 
-//       array (
-//         'city' => 'Heathrow',
-//         'country' => 'United Kingdom',
-//         'latitude' => 51.470356674519998,
-//         'longitude' => -0.46083979519515,
-//       ),
-//     ),
-//     'id' => '10154343725780363_10152677881235363',
-//     'created_time' => '2013-03-25T16:45:10+0000',
-//   ),
-// ),
 			$('#final_data').append('<div class="story_fbfeed">'+feed+'</div>');
 		}
 	};
