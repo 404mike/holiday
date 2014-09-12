@@ -38,18 +38,3 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('upload/file/post' , 'UploadsController@postFile');
 });
-
-Route::get('foo' , function(){
-echo '
-<form action="bar" method="post"
-enctype="multipart/form-data">
-<label for="file">Filename:</label>
-<input type="file" name="file" id="file"><br>
-<input type="submit" name="submit" value="Submit">
-</form>
-';
-});
-
-Route::post('bar' , function(){
-echo '<pre>' , print_r($_FILES) , '</pre>';
-});

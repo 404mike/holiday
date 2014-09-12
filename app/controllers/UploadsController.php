@@ -150,5 +150,4 @@ class UploadsController extends \BaseController {
 		return $mergeData;
 	}
 
-
 }
