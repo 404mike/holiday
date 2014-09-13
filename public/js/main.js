@@ -54,14 +54,20 @@ $('document').ready(function(){
 			    return true;
 			},
 			success: function(data){ 
-				console.log(data)
-				$.each(data, function (key, data) {
-					console.log(data.type)
+
+				$.each(data.data, function (key, data) {
 
 					if(data.type == 'image') create_story.photo(data);
 					else if(data.type == 'tweet') create_story.tweet(data);
 					else if(data.type == 'facebookfeed') create_story.fbFeed(data);
 				});
+
+				var geoLoc = data.singleLocation;
+				var geo = geoLoc.split(",");
+				var lat = geo[0];
+				var lng = geo[1];
+
+				reverseGeocoding.transformLatLong(lat , lng);
 			}
 		});	
 	});
@@ -69,19 +75,19 @@ $('document').ready(function(){
 	create_story = {
 
 		photo : function (data) {
-			console.log('Photo ' + data.created_at)
+			// console.log('Photo ' + data.created_at)
 			$('#final_data').append(
 				'<div class="story_image"><img src="/photos/'+data.picture+'" /></div>'
 			);
 		},
 
 		tweet : function (data) {
-			console.log('tweet ' + data)
+			// console.log('tweet ' + data)
 			$('#final_data').append('<div class="story_tweet">'+data.tweet+'</div>');
 		},
 
 		fbFeed : function (data) {
-			console.log('facebook ' + data)
+			// console.log('facebook ' + data)
 
 			var feed = '';
 			if(data.picture) {

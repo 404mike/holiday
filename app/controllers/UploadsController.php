@@ -129,9 +129,13 @@ class UploadsController extends \BaseController {
 			$fbFeed = array();
 		}
 
-		$finalData = self::mergeData($images , $tweets , $fbFeed);
+		$finalData['data'] = self::mergeData($images , $tweets , $fbFeed);
 
 		// Log::info($finalData);
+
+		$singleLocation = Upload::getSinglelatLng($finalData);
+
+		$finalData['singleLocation'] = $singleLocation;
 
 		return Response::json($finalData);
 	}

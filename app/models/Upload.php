@@ -109,4 +109,71 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 
+	public static function getSinglelatLng( $data )
+	{
+		$arr = [];
+
+		foreach($data['data'] as $d) {
+
+			// Get facebook feed location
+			if($d['type'] == 'facebookfeed') {
+				// Check if the data has a place
+				if(isset($d['place'])) {
+					$lat = $d['place']['location']['latitude'];
+					$lng = $d['place']['location']['longitude'];
+
+					array_push($arr, $lat.','.$lng);
+				}
+			}
+
+			// Get image location
+			if($d['type'] == 'image') {
+				if(isset($d['longitude'])) {
+					$lat = $d['latitude'];
+					$lng = $d['longitude'];		
+
+					array_push($arr, $lat.','.$lng);		
+				}
+			}
+		} // end foreach
+
+		// array to keep rounded geo locations
+		$locations = [];
+
+		// Loop through $arr and round off the locations
+		foreach($arr as $a) {
+			$geo = explode(',', $a);
+			// $lat = round($geo[0],1);
+			// $lng = round($geo[1],1);
+			$lat = substr($geo[0], 0, 4);
+			// TODO check if this has a minus
+			$lng = substr($geo[1], 0, 5);
+
+			// Check if the location already exists and increment
+			// else add it to the array
+			if(array_key_exists($lat.','.$lng, $locations)){
+				$locations[$lat.','.$lng] += 1;
+			}else{
+				$locations[$lat.','.$lng] = 1;
+			}		
+		}
+
+		// Get geo location with most occurances
+		$highestNum = max($locations);
+
+		// Search the $locations array to see where the location appears
+		$key = array_search($highestNum, $locations); 
+
+		$keyLatLng = explode(',', $key);
+		$lat = $keyLatLng[0];
+		$lng = $keyLatLng[1];
+
+		foreach($arr as $a) {
+
+			if(preg_match('/'.$lat.'(.*),'.$lng.'(.*)/', $a)) {
+				return $a;
+			}
+		}
+	}
+
 }
