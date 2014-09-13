@@ -100,4 +100,63 @@ $('document').ready(function(){
 		}
 	};
 
+
+	/*************************************************************************************************************************************************/
+
+    reverseGeocoding = {
+
+    	transformLatLong : function(lat , lng) {
+			geocoder = new google.maps.Geocoder();
+			var lat = parseFloat(lat);
+			var lng = parseFloat(lng);
+			var latlng = new google.maps.LatLng(lat, lng);
+			geocoder.geocode({'latLng': latlng}, function(results, status) 
+			{
+				if (status == google.maps.GeocoderStatus.OK) 
+				{
+					if (results[1]) 
+					{
+						var loc = reverseGeocoding.getCityName(results[1]);
+						console.log(loc)
+					} 
+					else 
+					{
+						console.log('No results found');
+					}
+				} 
+				else 
+				{
+					console.log('Geocoder failed due to: ' + status);
+				}
+			});
+    	},
+
+    	getCityName : function( data ) {
+				
+			var locationInfo = {};
+
+			$.each(data.address_components , function(i , data) {
+
+				if(data.types[0] == 'administrative_area_level_1') {
+					locationInfo.level1 = data.long_name;
+				}
+
+				if(data.types[0] == 'locality') {
+					locationInfo.locality = data.long_name;
+				}
+
+				if(data.types[0] == 'country') {
+					locationInfo.country = data.long_name;
+				}
+
+			});  
+
+			return locationInfo; 		
+    	}
+
+    };
+
+	/*************************************************************************************************************************************************/
+
+
 });
