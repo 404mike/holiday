@@ -61,5 +61,14 @@ body {
 .story_fbfeed {background-color: #CAA7F0;}*/
 
 
+#about_the_city{
+	display: none;
+	margin: 10px;
+	border: 1px solid #ccc;
+	height: 250px;
+	overflow: scroll;
+	padding: 10px;
+}
+
 
 

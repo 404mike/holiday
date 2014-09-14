@@ -157,7 +157,28 @@ $('document').ready(function(){
 
 			});  
 
-			return locationInfo; 		
+			 reverseGeocoding.getDbpediaEntry(locationInfo); 		
+    	},
+
+    	getDbpediaEntry : function( cityInfo ) {
+			$.ajax({
+				url: '/dbpedia',
+				type: 'POST',
+				data: { city: cityInfo },
+				async: true,
+				cache: false,
+				timeout: 30000,
+				error: function(){
+				    return true;
+				},
+				success: function(data){ 
+					var desc = data.description;
+
+					$('#about_the_city').append('<p>'+desc+'</p>');
+
+					$('#about_the_city').show();
+				}
+			});	
     	}
 
     };

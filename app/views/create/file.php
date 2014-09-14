@@ -15,4 +15,5 @@
 
 	</form>
 
+	<div id="about_the_city"></div>
 	<div id="final_data"></div>

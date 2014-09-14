@@ -38,46 +38,6 @@ class UploadsController extends \BaseController {
 	/**
 	 *
 	 */
-	public function postFile()
-	{
-		Upload::uploadFile($_FILES);
-	}
-
-	/**
-	 *
-	 */
-	public function getTweets( $start , $end ) 
-	{
-		return 'Tweets';
-	}
-
-	/**
-	 *
-	 */
-	public function getFacebookFeed( $start , $end ) 
-	{
-		return 'Facebook';
-	}
-
-	/**
-	 *
-	 */
-	public function getLocationData( $lat , $lon ) 
-	{
-		return 'Geo data';
-	}
-
-	/**
-	 *
-	 */
-	public function getWetherData( $date , $location ) 
-	{
-		return 'Weather';
-	}
-
-	/**
-	 *
-	 */
 	public function getAllData() 
 	{
 		// array to hold a list of all the dates from images
@@ -152,6 +112,17 @@ class UploadsController extends \BaseController {
 		});
 
 		return $mergeData;
+	}
+
+	public function dbpebdia()
+	{
+		$cityData = Input::get('city');
+
+		$city = Dbpedia::getDbpediaInformation( $cityData );
+
+		$simpleXml = simplexml_load_string($city);
+
+		return Response::json($simpleXml);
 	}
 
 }

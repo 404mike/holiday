@@ -37,4 +37,15 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('fileinfo' , 'UploadsController@getAllData');
 
 	Route::post('upload/file/post' , 'UploadsController@postFile');
+
+	Route::post('dbpedia' , 'UploadsController@dbpebdia');
 });
+
+
+
+
+
+
+
+
+
