@@ -38,6 +38,14 @@ class UploadsController extends \BaseController {
 	/**
 	 *
 	 */
+	public function postFile()
+	{
+		Upload::uploadFile($_FILES);
+	}
+
+	/**
+	 *
+	 */
 	public function getAllData() 
 	{
 		// array to hold a list of all the dates from images
