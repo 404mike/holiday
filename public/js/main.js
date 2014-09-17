@@ -116,6 +116,7 @@ $('document').ready(function(){
 			var lat = parseFloat(lat);
 			var lng = parseFloat(lng);
 			var latlng = new google.maps.LatLng(lat, lng);
+			console.log('lats ' + lat + ' ' + lng)
 			geocoder.geocode({'latLng': latlng}, function(results, status) 
 			{
 				if (status == google.maps.GeocoderStatus.OK) 
@@ -157,7 +158,7 @@ $('document').ready(function(){
 
 			});  
 
-			 reverseGeocoding.getDbpediaEntry(locationInfo); 		
+			reverseGeocoding.getDbpediaEntry(locationInfo); 		
     	},
 
     	getDbpediaEntry : function( cityInfo ) {

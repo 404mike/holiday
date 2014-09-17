@@ -6,6 +6,8 @@ $(function(){
     // array to store image data returned from upload
     // will hold filename, date, lon, lat
     imageData = [];
+    totalUploads = 0;
+    totalComplete = 0;
 
     $('#drop a').click(function(){
         // Simulate a click on the file input button
@@ -23,10 +25,10 @@ $(function(){
         // either via the browse button, or via drag/drop:
         add: function (e, data) {
 
-            if(totalImages == 0) {
-                totalImages = 1;
-                $('#create_new_story').show();
-            }
+            // if(totalImages == 0) {
+            //     totalImages = 1;
+            //     //$('#create_new_story').show();
+            // }
 
             var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"'+
                 ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
@@ -54,6 +56,8 @@ $(function(){
 
             });
 
+            totalUploads++;
+
             // Automatically upload the file once it is added to the queue
             var jqXHR = data.submit();
         },
@@ -70,6 +74,8 @@ $(function(){
             if(progress == 100){
                 data.context.removeClass('working');
             }
+
+
         },
 
         fail:function(e, data){
@@ -80,6 +86,11 @@ $(function(){
         done:function(e,data) {
             // console.log(data.result)
             imageData.push(data.result);
+            totalComplete++;
+            $('#total_upload_process').html('Uploading ' + totalComplete + ' of ' + totalUploads);
+            if(totalUploads === totalComplete) {
+                $('#create_new_story').show();
+            }
             // console.log(imageData)
         }
 

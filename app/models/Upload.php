@@ -122,7 +122,9 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 					$lat = $d['place']['location']['latitude'];
 					$lng = $d['place']['location']['longitude'];
 
-					array_push($arr, $lat.','.$lng);
+					if($lat != '') {
+						array_push($arr, $lat.','.$lng);
+					}					
 				}
 			}
 
@@ -130,9 +132,11 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 			if($d['type'] == 'image') {
 				if(isset($d['longitude'])) {
 					$lat = $d['latitude'];
-					$lng = $d['longitude'];		
+					$lng = $d['longitude'];	
 
-					array_push($arr, $lat.','.$lng);		
+					if($lat != '') {
+						array_push($arr, $lat.','.$lng);
+					}			
 				}
 			}
 		} // end foreach

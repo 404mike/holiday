@@ -42,7 +42,13 @@ Route::group(array('before' => 'auth'), function()
 });
 
 
-
+Route::get('foo' , function(){
+    // $tw = OAuth::consumer( 'Twitter' );
+    // $result = json_decode( $tw->request( 'statuses/user_timeline.json?count=200&include_rts=false&exclude_replies=true' ), true );
+    // print_r($result);
+    $data = Session::all();
+    echo '<pre>' , print_r($data) , '</pre>';
+});	
 
 
 
