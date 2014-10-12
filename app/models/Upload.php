@@ -119,12 +119,12 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 			if($d['type'] == 'facebookfeed') {
 				// Check if the data has a place
 				if(isset($d['place'])) {
-					$lat = $d['place']['location']['latitude'];
-					$lng = $d['place']['location']['longitude'];
+					$lat = $d['place']['latitude'];
+					$lng = $d['place']['longitude'];
 
 					if($lat != '') {
 						array_push($arr, $lat.','.$lng);
-					}					
+					}
 				}
 			}
 
@@ -132,11 +132,11 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 			if($d['type'] == 'image') {
 				if(isset($d['longitude'])) {
 					$lat = $d['latitude'];
-					$lng = $d['longitude'];	
+					$lng = $d['longitude'];
 
 					if($lat != '') {
 						array_push($arr, $lat.','.$lng);
-					}			
+					}
 				}
 			}
 		} // end foreach
@@ -159,14 +159,14 @@ class Upload extends Eloquent implements UserInterface, RemindableInterface {
 				$locations[$lat.','.$lng] += 1;
 			}else{
 				$locations[$lat.','.$lng] = 1;
-			}		
+			}
 		}
 
 		// Get geo location with most occurances
 		$highestNum = max($locations);
 
 		// Search the $locations array to see where the location appears
-		$key = array_search($highestNum, $locations); 
+		$key = array_search($highestNum, $locations);
 
 		$keyLatLng = explode(',', $key);
 		$lat = $keyLatLng[0];

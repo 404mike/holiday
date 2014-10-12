@@ -1,5 +1,11 @@
 <?php
-use TwitterOAuth\TwitterOAuth;
+use Facebook\FacebookSession;
+use Facebook\FacebookRequest;
+use Facebook\GraphUser;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookRedirectLoginHelper;
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -40,86 +46,3 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('dbpedia' , 'UploadsController@dbpebdia');
 });
-
-
-Route::get('foo' , function(){
-    $tw = OAuth::consumer( 'Twitter' );
-    $result = json_decode( $tw->request( 'statuses/user_timeline.json?count=20&include_rts=false&exclude_replies=true' ), true );
-    echo '<pre>' , print_r($result) , '</pre>';
-
-});	
-
-Route::get('mike' , 'UploadsController@mike');
-
-
-Route::get('twitter' , function(){
-
-
-
-
-
-
-    date_default_timezone_set('UTC');
-
-    // require_once __DIR__ . '/vendor/autoload.php';
-
-    /**
-     * Array with the OAuth tokens provided by Twitter when you create application
-     *
-     * output_format - Optional - Values: text|json|array|object - Default: object
-     */
-    $config = array(
-        'consumer_key' => 'QFlSVjRdHo7mSUyiCpQKmtUD6',
-        'consumer_secret' => 'vJ0n9d8q5pZRzV165ypYtbTpOTNoTNgVplKOkQ2NwjHET3SoiS',
-        'oauth_token' => '191932900-joKFlukrKvQ8xASWDSp8EyyHSQuxPRxmYIMGHTAZ',
-        'oauth_token_secret' => 'zGo7UZpBcT2LZD2bTbE0P5gB7cpZhZW5cFvHxr0lrSgAw',
-        'output_format' => 'array'
-    );
-
-    /**
-     * Instantiate TwitterOAuth class with set tokens
-     */
-    $tw = new TwitterOAuth($config);
-
-
-    /**
-     * Returns a collection of the most recent Tweets posted by the user
-     * https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline
-     */
-    $params = array(
-        // 'screen_name' => 'ricard0per',
-        'count' => 200,
-        'exclude_replies' => true
-    );
-
-    /**
-     * Send a GET call with set parameters
-     */
-    $response = $tw->get('statuses/user_timeline', $params);
-
-    echo '<pre>' , print_r($response) , '</pre>';
-
-
-    // /**
-    //  * Creates a new list for the authenticated user
-    //  * https://dev.twitter.com/docs/api/1.1/post/lists/create
-    //  */
-    // $params = array(
-    //     'name' => 'TwOAuth',
-    //     'mode' => 'private',
-    //     'description' => 'Test List',
-    // );
-
-    // /**
-    //  * Send a POST call with set parameters
-    //  */
-    // $response = $tw->post('lists/create', $params);
-
-    // var_dump($response);
-
-
-});
-
-
-
-

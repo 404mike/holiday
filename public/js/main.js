@@ -98,8 +98,8 @@ $('document').ready(function(){
 			}
 			if(data.place) {
 				feed += '<p>'+data.place.name+'</p>';
-				feed += '<p>'+data.place.location.city+'</p>';
-				feed += '<p>'+data.place.location.country+'</p>';
+				feed += '<p>'+data.place.city+'</p>';
+				feed += '<p>'+data.place.country+'</p>';
 			}
 
 			$('#final_data').append('<div class="story_fbfeed">'+feed+'</div>');
