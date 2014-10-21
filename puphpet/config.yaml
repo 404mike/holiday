@@ -3,21 +3,24 @@ vagrantfile-local:
     vm:
         box: puphpet/ubuntu1404-x64
         box_url: puphpet/ubuntu1404-x64
-        hostname: null
+        hostname: ''
         memory: '2048'
+        cpus: '1'
         chosen_provider: virtualbox
         network:
             private_network: 192.168.56.101
             forwarded_port:
-                rVrSlEcLcFPO:
+                PHX241wQtr6P:
                     host: '6993'
                     guest: '22'
+                51hvn0fPlfTW:
+                    host: '27017'
+                    guest: '27017'
+        post_up_message: ''
         provider:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
-                setextradata:
-                    VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root: 1
             vmware:
                 numvcpus: 1
             parallels:
@@ -25,20 +28,22 @@ vagrantfile-local:
         provision:
             puppet:
                 manifests_path: puphpet/puppet
-                manifest_file: manifest.pp
+                manifest_file: site.pp
                 module_path: puphpet/puppet/modules
                 options:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            1XMx5px172eU:
+            F6BQn4RmCzEc:
                 source: ./
                 target: /var/www
                 sync_type: default
                 rsync:
                     auto: 'false'
-        usable_port_range: 2200..2250
+        usable_port_range:
+            start: 10200
+            stop: 10500
     ssh:
         host: null
         port: null
@@ -52,31 +57,19 @@ vagrantfile-local:
     vagrant:
         host: detect
 server:
+    install: '1'
     packages:
         - vim
         - libpcre3-dev
-    dot_files:
-        -
-            bash_aliases: null
-    _prevent_empty: ''
-mailcatcher:
-    install: 0
-    settings:
-        smtp_ip: 0.0.0.0
-        smtp_port: 1025
-        http_ip: 0.0.0.0
-        http_port: '1080'
-        mailcatcher_path: /usr/local/bin
-        log_path: /var/log/mailcatcher/mailcatcher.log
 firewall:
     install: '1'
     rules:
-        Sh2ABK44XaNU:
+        w40G0sxMoM45:
             port: '9200'
             priority: '100'
             proto: tcp
             action: accept
-        CYWj2edaT1iF:
+        9ODlHX0EGq1T:
             port: '1080'
             priority: '100'
             proto: tcp
@@ -91,10 +84,9 @@ apache:
         manage_group: false
         sendfile: 0
     modules:
-        - php
         - rewrite
     vhosts:
-        r02XKFaXaavR:
+        8xC76OHC3Bgr:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -108,28 +100,34 @@ apache:
                 - Indexes
                 - FollowSymLinks
                 - MultiViews
+            engine: ''
             custom_fragment: ''
             ssl_cert: ''
             ssl_key: ''
             ssl_chain: ''
             ssl_certs_dir: ''
     mod_pagespeed: 0
-    mod_spdy: 0
 nginx:
-    install: 0
+    install: '0'
+    settings:
+        default_vhost: 1
+        proxy_buffer_size: 128k
+        proxy_buffers: '4 256k'
     vhosts:
-        uQx63bjiGc5u:
+        GCIyUn4mQX7Y:
             server_name: holiday.dev
             server_aliases:
                 - www.holiday.dev
             www_root: /var/www/public
             listen_port: '80'
+            location: .php$
             index_files:
                 - index.html
                 - index.htm
                 - index.php
             envvars:
                 - 'APP_ENV dev'
+            engine: ''
             ssl_cert: ''
             ssl_key: ''
 php:
@@ -157,8 +155,19 @@ php:
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
     timezone: Europe/London
+    mod_php: 0
+hhvm:
+    install: '0'
+    nightly: 0
+    composer: '1'
+    composer_home: ''
+    settings:
+        host: '0'
+        port: '0'
+    ini: {  }
+    timezone: null
 xdebug:
-    install: 0
+    install: '0'
     settings:
         xdebug.default_enable: '1'
         xdebug.remote_autostart: '0'
@@ -166,16 +175,27 @@ xdebug:
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+xhprof:
+    install: '0'
 drush:
-    install: 0
-    settings:
-        drush.tag_branch: 6.x
-mysql:
+    install: '0'
+    version: ''
+ruby:
     install: '1'
+    versions: {  }
+nodejs:
+    install: '0'
+    npm_packages: {  }
+python:
+    install: '1'
+    packages: {  }
+    versions: {  }
+mysql:
+    install: '0'
     root_password: '123'
     adminer: 0
     databases:
-        9tDQzqasBOSl:
+        7oV2touGL10G:
             grant:
                 - ALL
             name: dbname
@@ -191,7 +211,7 @@ postgresql:
         encoding: UTF8
         version: '9.3'
     databases:
-        Se2Y48P14jh0:
+        yySiWQbt3UOv:
             grant: ALL
             name: holiday
             user: root
@@ -199,23 +219,40 @@ postgresql:
             sql_file: ''
     adminer: '1'
 mariadb:
-    install: 0
+    install: '0'
     root_password: '123'
     adminer: 0
     databases: {  }
     version: '10.0'
+sqlite:
+    install: '0'
+    adminer: 0
+    databases: {  }
 mongodb:
     install: '1'
     settings:
         auth: 1
         port: '27017'
-    databases: {  }
+    databases:
+        mS8Mpb49Ll2a:
+            name: holiday
+            user: root
+            password: '123'
 redis:
-    install: 0
+    install: '0'
     settings:
         conf_port: '6379'
+mailcatcher:
+    install: '0'
+    settings:
+        smtp_ip: 0.0.0.0
+        smtp_port: 1025
+        http_ip: 0.0.0.0
+        http_port: '1080'
+        mailcatcher_path: /usr/local/rvm/wrappers/default
+        from_email_method: inline
 beanstalkd:
-    install: '1'
+    install: '0'
     settings:
         listenaddress: 0.0.0.0
         listenport: '13000'
@@ -227,11 +264,11 @@ beanstalkd:
     beanstalk_console: 0
     binlogdir: /var/lib/beanstalkd/binlog
 rabbitmq:
-    install: 0
+    install: '1'
     settings:
         port: '5672'
 elastic_search:
-    install: '1'
+    install: '0'
     settings:
         java_install: true
         autoupgrade: true
