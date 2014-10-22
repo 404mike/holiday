@@ -13,9 +13,16 @@ sudo cp -R /var/www/settings/sites-available /etc/apache2/
 echo "Moving php.ini file"
 sudo cp /var/www/settings/php.ini /etc/php5/cli/
 
+
+echo "Restart apache"
+sudo service apache2 restart
+
 # Move site available directory
 echo "Moving mongodb conf file"
 sudo cp /var/www/settings/mongodb.conf /etc/
+
+echo "Restart mongodb"
+sudo service mongodb restart
 
 # Build laravel
 echo "Building laravel"
