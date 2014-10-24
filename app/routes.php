@@ -46,3 +46,6 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('dbpedia' , 'UploadsController@dbpebdia');
 });
+
+
+Route::get('db' , 'MongoController@main');

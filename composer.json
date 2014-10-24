@@ -7,7 +7,7 @@
 		"laravel/framework": "4.2.*",
 		"facebook/php-sdk-v4" : "4.0.*",
 		"artdarek/oauth-4-laravel": "dev-master",
-		"elasticsearch/elasticsearch": "~1.0",
+		"jenssegers/mongodb": "*",
 		"ricardoper/twitteroauth": "1.*"
 	},
 	"autoload": {

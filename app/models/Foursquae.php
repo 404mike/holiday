@@ -23,4 +23,9 @@ class Foursquare extends Eloquent implements UserInterface, RemindableInterface 
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	public static function main()
+	{
+		return 'f3as';
+	}
+
 }
