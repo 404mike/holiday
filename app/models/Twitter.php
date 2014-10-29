@@ -71,7 +71,8 @@ class Twitter extends Eloquent implements UserInterface, RemindableInterface {
 	    foreach($response as $res) 
 	    {
 	    	$tweet['created_at'] = strtotime( $res['created_at'] );
-	    	$tweet['tweet'] = $res['text'];
+	    	$tweet['message'] = $res['text'];
+	    	$tweet['display'] = 'true';
 	    	$tweet['user'] =  $res['user']['screen_name'];
 	    	$tweet['tweed_id'] = $res['id'];
 	    	$tweet['type'] = 'tweet';

@@ -7,39 +7,6 @@ use Facebook\FacebookRequestException;
 
 class UploadsController extends \BaseController {
 
-	public function mike()
-	{
-		FacebookSession::setDefaultApplication('1437671129843796','ca609da430c33464a2c0d56ee60b864e');
-
-		// Use one of the helper classes to get a FacebookSession object.
-		//   FacebookRedirectLoginHelper
-		//   FacebookCanvasLoginHelper
-		//   FacebookJavaScriptLoginHelper
-		// or create a FacebookSession with a valid access token:
-		$session = new FacebookSession('CAAUbjeTZCiFQBAPSpvhU1PZBZAg3o63jnOrMVdL85VW1RWkua4zPZCFDYOXN8NZBGJlKQEdrDEbV3odcrnim7s26fKcguAolTw1utRIqkFxCgqnjZAz2plIhETsLoUlQOAR2rz8IMzQnOjxHjwyrZCvRZCZA7xbpfxSTxTl50Tgh5ZBYNzr4onjCF7Nzg70svozCXHLJJ6h9BEFJzmZBD0KwKBk');
-
-		// Get the GraphUser object for the current user:
-
-		try {
-		  $me = (new FacebookRequest(
-		    $session, 'GET', '/me/albums'
-		  ))->execute()->getGraphObject(GraphUser::className());
-		  // $foo = $me->toArray();
-		  $album_data =  $me->getProperty('data');
-		  
-
-foreach($album_data->asArray() as $r) {
-	echo '<pre>' , print_r($r) , '</pre>';
-}
-
-		 } catch (FacebookRequestException $e) {
-		  // The Graph API returned an error
-		} catch (\Exception $e) {
-		  // Some other error occurred
-		}
-
-	}
-
 	/**
 	 *
 	 */
@@ -55,7 +22,6 @@ foreach($album_data->asArray() as $r) {
 	 */
 	public function createFileUpload( $type='' , $id='' )
 	{
-
 		$data['title'] = 'Create';
 		$data['template'] = 'create/file';		
 		return View::make('includes/main', array( 'data' => $data) );
@@ -67,7 +33,6 @@ foreach($album_data->asArray() as $r) {
 	 */
 	public function createSocialUpload( $type='' , $id='' )
 	{
-
 		$data['title'] = 'Create';
 		$data['template'] = 'create/main';		
 		return View::make('includes/main', array( 'data' => $data) );
@@ -107,7 +72,8 @@ foreach($album_data->asArray() as $r) {
 					'blurb' 	=> '' ,
 					'created_at'=> $data->date ,
 					'longitude' => $data->lon ,
-					'latitude' 	=> $data->lat
+					'latitude' 	=> $data->lat ,
+					'loc'		=> array($data->lon , $data->lat)
 				));
 			}
 
@@ -142,6 +108,10 @@ foreach($album_data->asArray() as $r) {
 		$singleLocation = Upload::getSinglelatLng($finalData);
 
 		$finalData['singleLocation'] = $singleLocation;
+
+		// Log::info($finalData);
+
+		DBLayer::saveFeed($finalData);
 
 		return Response::json($finalData);
 	}

@@ -36,6 +36,8 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 
 	public static function feed( $start='' , $end='' )
 	{
+        Log::info('Original start ' . $start);
+        Log::info('Original end ' . $end);
 		$start = strtotime('-2days', $start);
 		$end = strtotime('+2 days', $end);
 
@@ -46,6 +48,9 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
             $session, 'GET', '/me/feed?fields=message,picture,place,object_id&since='.$start.'&until='.$end.'&limit=200'
         ))->execute()->getGraphObject();
 
+
+        Log::info('FB Query ' . $start . ' ' .$end );
+
         $album_data =  $user_profile->getProperty('data');
 
         $feed = array();
@@ -54,8 +59,10 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 
             if(isset($res->message)) {
                 $fb = array();
+                $fb['id'] = $res->id;
                 $fb['type'] = 'facebookfeed';
                 $fb['message'] = $res->message;
+                $fb['display'] = 'true';
 
                 if(isset($res->picture) && isset($res->object_id)) {
                     // Log::info($res);
@@ -72,6 +79,8 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
                     $fb['place']['country'] = $res->place->location->country;
                     $fb['place']['latitude'] = $res->place->location->latitude;
                     $fb['place']['longitude'] = $res->place->location->longitude;
+
+                    $fb['loc'] = array($res->place->location->longitude , $res->place->location->latitude);
                 }
 
                 //echo '<pre>' , print_r($res) , '</pre>';

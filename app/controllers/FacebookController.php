@@ -10,9 +10,9 @@ class FacebookController extends \BaseController {
 		$this->fbPhotos = array();
 	}
 	
-  /**
-   *
-   */
+	 /**
+	   *
+	   */
 	public function main()
 	{
     $data['title'] = 'Upload';
@@ -20,9 +20,9 @@ class FacebookController extends \BaseController {
 		return View::make('includes/main', array( 'data' => $data) );		
 	}
 
-  /**
-   *
-   */
+	/**
+	 *
+	 */
 	public function nextAlbum( $after='' )
 	{
 		$fb = OAuth::consumer( 'Facebook' );
@@ -50,9 +50,9 @@ class FacebookController extends \BaseController {
 
 	}
 
-  /**
-   *
-   */
+	/**
+	 *
+	 */
 	public function getAlbumCover( $id )
 	{
 		$fb = OAuth::consumer( 'Facebook' );
@@ -79,17 +79,16 @@ class FacebookController extends \BaseController {
 		}
 	}
 
-  /**
-   *
-   */
+	/**
+     *
+	 */
 	public function album( $id ) 
 	{
-
 		$photos = self::getAlbumPhotos($id);
 
 		//echo '<pre>' , print_r($this->fbPhotos) , '</pre>';
 
-    $data['title'] = 'Upload';
+    	$data['title'] = 'Upload';
 		$data['template'] = 'upload/facebook_album';
 
 		$data['images'] = $this->fbPhotos;

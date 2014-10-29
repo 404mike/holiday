@@ -13,6 +13,9 @@ sudo cp -R /var/www/settings/sites-available /etc/apache2/
 echo "Moving php.ini file"
 sudo cp /var/www/settings/php.ini /etc/php5/cli/
 
+# Move site available directory
+echo "Moving php.ini file for php-fpm"
+sudo cp /var/www/settings/php-fpm/php.ini /etc/php5/fpm/
 
 echo "Restart apache"
 sudo service apache2 restart

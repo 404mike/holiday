@@ -83,7 +83,7 @@ $('document').ready(function(){
 
 		tweet : function (data) {
 			// console.log('tweet ' + data)
-			$('#final_data').append('<div class="story_tweet">'+data.tweet+'</div>');
+			$('#final_data').append('<div class="story_tweet">'+data.message+'</div>');
 		},
 
 		fbFeed : function (data) {

@@ -236,7 +236,7 @@ mongodb:
     databases:
         mS8Mpb49Ll2a:
             name: holiday
-            user: root
+            user: holiday
             password: '123'
 redis:
     install: '0'
