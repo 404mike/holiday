@@ -57,6 +57,8 @@ class Dbpedia extends Eloquent {
 
                 $updateStory = DBLayer::saveDbpedia( $storyId , $cityId );
 
+                Log::info('cityInfo '. $storyId . ' ' . $cityId);
+
                 return;
             }
     	}

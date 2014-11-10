@@ -8,7 +8,7 @@ class StoryController extends Controller {
 		$data['template'] = 'story/main';
 		$data['id'] = $id;
 		$data['story'] = DBLayer::getStory( $id );
-		// echo '<pre>' , print_r($data['story']) , '</pre>';
+		echo '<pre>' , print_r($data['story']) , '</pre>';
 		return View::make('includes/main', array( 'data' => $data) );
 	}
 

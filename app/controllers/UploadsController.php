@@ -139,12 +139,17 @@ class UploadsController extends \BaseController {
 	public function dbpebdia()
 	{
 		$cityData = Input::get('city');
+		// Log::info('city post ' . $cityData);
 
 		$story_id = Input::get('story_id');
+
+		// Log::info('sotry post ' . $story_id)
 
 		$city = Dbpedia::getDbpediaInformation( $cityData , $story_id );
 
 		$simpleXml = simplexml_load_string($city);
+
+		// Log::info('uploads');
 
 		return Response::json($simpleXml);
 	}
