@@ -38,7 +38,8 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('newstory/facebookalbums/next/{next?}' , array('uses' => 'FacebookController@nextAlbum'));
 
 	Route::get('create' , 'UploadsController@createFileUpload');
-	Route::get('create/{type?}/{id?}' , 'UploadsController@createSocialUpload');
+	// Route::get('create/{type?}/{id?}' , 'UploadsController@createSocialUpload');
+	Route::get('create/{id?}' , 'UploadsController@editStory');
 
 	Route::post('fileinfo' , 'UploadsController@getAllData');
 
@@ -46,6 +47,10 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('dbpedia' , 'UploadsController@dbpebdia');
 });
+
+Route::get('user/{id?}' , 'UserController@outBountProfile');
+
+Route::get('story/{id?}' , 'StoryController@getStory');
 
 
 Route::get('db' , 'MongoController@main');

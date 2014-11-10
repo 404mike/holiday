@@ -36,8 +36,6 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
 
 	public static function feed( $start='' , $end='' )
 	{
-        Log::info('Original start ' . $start);
-        Log::info('Original end ' . $end);
 		$start = strtotime('-2days', $start);
 		$end = strtotime('+2 days', $end);
 
@@ -47,9 +45,6 @@ class Facebook extends Eloquent implements UserInterface, RemindableInterface {
         $user_profile = (new FacebookRequest(
             $session, 'GET', '/me/feed?fields=message,picture,place,object_id&since='.$start.'&until='.$end.'&limit=200'
         ))->execute()->getGraphObject();
-
-
-        Log::info('FB Query ' . $start . ' ' .$end );
 
         $album_data =  $user_profile->getProperty('data');
 

@@ -68,6 +68,7 @@ class UploadsController extends \BaseController {
 				// add image information
 				array_push($images, array(
 					'type' 		=> 'image' ,
+					'display'	=> 'true' ,
 					'picture' 	=> $data->filename ,
 					'blurb' 	=> '' ,
 					'created_at'=> $data->date ,
@@ -111,9 +112,14 @@ class UploadsController extends \BaseController {
 
 		// Log::info($finalData);
 
-		DBLayer::saveFeed($finalData);
+		$id = DBLayer::saveFeed($finalData);
 
-		return Response::json($finalData);
+		$response = array(
+			'id' => $id ,
+			'singleLocation' => $singleLocation
+		);
+
+		return Response::json( $response );
 	}
 
 	/**
@@ -134,11 +140,22 @@ class UploadsController extends \BaseController {
 	{
 		$cityData = Input::get('city');
 
-		$city = Dbpedia::getDbpediaInformation( $cityData );
+		$story_id = Input::get('story_id');
+
+		$city = Dbpedia::getDbpediaInformation( $cityData , $story_id );
 
 		$simpleXml = simplexml_load_string($city);
 
 		return Response::json($simpleXml);
+	}
+
+	public function editStory( $id )
+	{
+		$data['title'] = 'Create';
+		$data['template'] = 'create/main';		
+		$data['id'] = $id;
+		$data['story'] = DBLayer::getStory( $id );
+		return View::make('includes/main', array( 'data' => $data) );	
 	}
 
 }

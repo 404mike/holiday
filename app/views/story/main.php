@@ -1,3 +1,5 @@
+<h2><?php echo $story->title; ?></h2>
+
 
 
 <?php

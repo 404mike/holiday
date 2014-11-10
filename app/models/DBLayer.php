@@ -12,58 +12,36 @@ class DBLayer extends Eloquent {
 	 protected $collection = 'story';
 	 protected $connection = 'mongodb';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password', 'remember_token');
-
 	public static function main()
 	{
 
-		// $story = new DBLayer;
-		// $story->user = rand(1,300);
-		// $story->postTitle = 'New York';
-		// $story->dbpedia = rand(1,234);
-		// $story->items = array(
-		// 	0 => array(
-		// 		'display' => true ,
-		// 		'id' => rand(1,200) ,
-		// 		'type' => 'facebook' ,
-		// 		'message' => 'test' ,
-		// 		'created_at' => 12312312312,
-		// 		'place' => array (
-		// 	        'name' => 'Clubhouse Virgin Atlantic',
-		// 	        'city' => 'Heathrow',
-		// 	        'country' => 'United Kingdom',
-		// 	        'latitude' => 51.470356674519998,
-		// 	        'longitude' => -0.46083979519515,
-		// 	      ),
-		// 	),
-		// 	1 => array(
-		// 		'display' => false ,
-		// 		'id' => rand(1,200) ,
-		// 		'type' => 'tweet' ,
-		// 		'message' => 'test 23423' ,
-		// 		'created_at' => 12312312312
-		// 	)
-		// );
+		// $book = new DBLayer(array('_id' => '4'));
 
-		// $story->items = array(
-		// 	4 => array('foo' => 'bar')
- 	// 	);
+$foo = DBLayer::where('_id', '4')->get()->first();
+// $data = array('dbpedia' => rand(1,987));
+// $foo->update($data);
 
-		// echo '<pre>' , print_r($story) , '</pre>';
+		// // DB::collection('story')->where('_id', 4)->push('items', 'boots');
+		// $data = array('dbpedia' , 'mike');
+		// $story = DBLayer::where('_id' , '=' , '4')->update($data);
 
-		// $story->save();
+		// // $story = new DBLayer;
+		// // $story->user = Auth::user()->id;
+		// // $story->_id = '4';
+		// // $story->title = 'New York test ' . rand(1, 2343423);
+		// // $story->dbpedia = '2323424234';
+		// // $story->mainLoc = 'blah';
+		// // $story->likes = '';
+		// // $story->save();
 
-		// echo "<h2>ID " . $story->id . "</h2>";
+		// // $id = $story->id; 
+		// // echo $id;
+		// // $foo = DBLayer::where('_id' , '=' , $id)->get();
+		// // $foo->dbpedia = 'sdfs';
+		// // $foo->save();
 
-		$foo = DBLayer::where('_id', '=', '5451407e279871061e8b4567')->get();
-
-
-		echo '<pre>' , print_r($foo) , '</pre>';
+		// $foo = DBLayer::where('_id' , '=' , '4')->get();
+		echo '<pre>' , print_r($foo) , ' </pre>';
 
 		return;
 	}
@@ -83,8 +61,9 @@ class DBLayer extends Eloquent {
 		// add the first item to the array
 		array_push($items, array(
 			$loop => array(
-				'message' => '',
-				'display' => 'true'
+				'message' => '' ,
+				'display' => 'true' ,
+				'type'	  => 'text'
 			)
 		));	
 
@@ -109,8 +88,9 @@ class DBLayer extends Eloquent {
 
 			array_push($items, array(
 				$loop => array(
-					'message' => '',
-					'display' => 'true'
+					'message' => '' ,
+					'display' => 'true' , 
+					'type'	  => 'text'
 				)
 			));			
 		}
@@ -125,8 +105,33 @@ class DBLayer extends Eloquent {
 
 		$id = $story->id; 
 
-		Log::info($id);
+		// Log::info($id);
 
+		return $id;
 	}
 
+	public static function saveDbpedia( $city , $storyId )
+	{
+		$story = DBLayer::where('_id' , '=' , $storyId);
+		$story->dbpedia = $city;
+		$story->save();
+	}
+
+
+	public static function getStory( $id )
+	{
+		$story = DBLayer::where('_id' , '=' , $id)->first();
+		return $story;
+	}
+
+	public static function getUserStories( $id )
+	{
+		$id = (int) $id;
+		$stories = DBLayer::where('user' , '=' , $id)->get();
+
+		Log::info($id);
+		// Log::info()
+
+		return $stories;
+	}
 }

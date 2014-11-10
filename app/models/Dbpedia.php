@@ -1,6 +1,16 @@
 <?php
 
-class Dbpedia {
+use Jenssegers\Mongodb\Model as Eloquent;
+
+class Dbpedia extends Eloquent {
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $collection = 'locations';
+    protected $connection = 'mongodb';
 
     protected static $dbpedia = 'http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryClass=place&QueryString=';   
 
@@ -16,24 +26,40 @@ class Dbpedia {
         return $data;
     }
 
-    public static function getDbpediaInformation( $city )
+    public static function getDbpediaInformation( $city , $storyId )
     {
     	if(isset($city['locality'])) {
     		$cityName = $city['locality'];
+
+            // Check to see if the city name has already been saved
+            if(self::checkSavedDbpediaEntry( $cityName ) != false) {
+                // Log::info('There is an entry');
+                return;
+            }
+            else{
+                // Log::info('No entry found');
+
+                $dbpediaUrl = self::$dbpedia.$cityName;
+
+                // Log::info('City ' . $cityName);
+
+                $data = self::get_data($dbpediaUrl);
+
+                $rdf = simplexml_load_string($data);
+
+                $rdfURI = $rdf->Result->URI;
+
+                $result = self::transformRDF($rdfURI);
+
+                // Log::info($result);
+
+                $cityId = self::addNewCity( $cityName , $result );
+
+                $updateStory = DBLayer::saveDbpedia( $storyId , $cityId );
+
+                return;
+            }
     	}
-        $dbpediaUrl = self::$dbpedia.$cityName;
-
-        // Log::info('URL ' . $dbpediaUrl);
-
-        $data = self::get_data($dbpediaUrl);
-
-        $rdf = simplexml_load_string($data);
-
-		$rdfURI = $rdf->Result->URI;
-
-		$result = self::transformRDF($rdfURI);
-
-		return $result;
     }
 
     public static function transformRDF( $rdfURI )
@@ -58,4 +84,51 @@ class Dbpedia {
 	    return $city;
     }
 
+    /**
+     * 
+     * @param $cityName string
+     * @return boolean
+     */
+    private static function checkSavedDbpediaEntry( $cityName )
+    {
+        // Log::info('Looking for ' . $cityName);
+        $location = Dbpedia::where('cityName', '=', $cityName)->first();
+        // Log::info($location);
+        if(count($location) > 0){
+            Log::info('found ' . $location['id']);
+            return $location['id'];
+        }else{
+            Log::info('We have no results for this query');
+            return false;
+        }
+    }
+
+    private static function addNewCity( $cityName , $result )
+    {
+        $city = new Dbpedia;
+
+        $cityInfo = simplexml_load_string($result);
+
+        $cityDescription = (string) $cityInfo->description;
+        $longitude = (string) $cityInfo->longitude;
+        $latitude = (string) $cityInfo->latitude;
+
+        $loc = array( $longitude , $latitude);
+
+        $city->cityName = $cityName;
+        $city->description = $cityDescription;
+        $city->loc = $loc;
+
+        $city->save();
+
+        $id = $city->id;
+
+        return $id;
+    }
+
+    public static function getCity( $id )
+    {
+        $city = Dbpedia::where('_id' , '=' , $id);
+        return $city;
+    }
 }

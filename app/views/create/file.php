@@ -17,7 +17,8 @@
 
 	</form>
 
-	<form>
-		<div id="about_the_city"></div>
-		<div id="final_data"></div>
-	</form>
+
+	<div id="create_story_loading">
+		<h2>Gathering data</h2>
+		<img src="/loading/loading-bubbles.svg" width="64" height="64" />
+	</div>
