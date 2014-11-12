@@ -160,6 +160,13 @@ class UploadsController extends \BaseController {
 		$data['template'] = 'create/main';		
 		$data['id'] = $id;
 		$data['story'] = DBLayer::getStory( $id );
+
+		$city = $data['story']->dbpedia;
+
+		$data['city'] = Dbpedia::getCityDetails( $city );
+
+		echo '<pre>' , print_r($data['story']) , '</pre>';
+
 		return View::make('includes/main', array( 'data' => $data) );	
 	}
 

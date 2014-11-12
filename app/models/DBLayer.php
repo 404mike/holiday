@@ -15,7 +15,7 @@ class DBLayer extends Eloquent {
 	public static function main()
 	{
 
-		$foo = DBLayer::where('_id', '4')->update(array('dbpedia'=>'mike'));
+		// $foo = DBLayer::where('_id', '4')->update(array('dbpedia'=>'mike'));
 		// $book = new DBLayer(array('_id' => '4'));
 
 // $foo = DBLayer::where('_id', '4')->get()->first();
@@ -41,7 +41,7 @@ class DBLayer extends Eloquent {
 		// // $foo->dbpedia = 'sdfs';
 		// // $foo->save();
 
-		$foo = DBLayer::where('_id' , '=' , '4')->get();
+		$foo = DBLayer::where('_id' , '=' , '5451953d279871c2348b4567')->get();
 		echo '<pre>' , print_r($foo) , ' </pre>';
 
 		return;
@@ -51,7 +51,7 @@ class DBLayer extends Eloquent {
 	{
 		$story = new DBLayer;
 		$story->user = Auth::user()->id;
-		$story->title = 'New York';
+		$story->title = '';
 
 		$story->dbpedia = '';
 
@@ -111,10 +111,10 @@ class DBLayer extends Eloquent {
 		return $id;
 	}
 
-	public static function saveDbpedia( $city , $storyId )
+	public static function saveDbpedia( $storyId , $city )
 	{
 		$story = DBLayer::where('_id', $storyId)->update(array('dbpedia' => $city));
-		Log::info('city ' . $city . ' story ' . $storyId);
+		// Log::info('city ' . $city . ' story ' . $storyId);
 	}
 
 
@@ -129,7 +129,7 @@ class DBLayer extends Eloquent {
 		$id = (int) $id;
 		$stories = DBLayer::where('user' , '=' , $id)->get();
 
-		Log::info($id);
+		// Log::info($id);
 		// Log::info()
 
 		return $stories;

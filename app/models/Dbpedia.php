@@ -31,9 +31,15 @@ class Dbpedia extends Eloquent {
     	if(isset($city['locality'])) {
     		$cityName = $city['locality'];
 
+
+            $cityResults = self::checkSavedDbpediaEntry( $cityName );
+
             // Check to see if the city name has already been saved
-            if(self::checkSavedDbpediaEntry( $cityName ) != false) {
-                // Log::info('There is an entry');
+            if( $cityResults != false) {
+                Log::info('There is an entry');
+                Log::info('Result of city ' . $cityResults);
+                Log::info('Story id ' . $storyId);
+                $updateStory = DBLayer::saveDbpedia( $storyId , $cityResults );
                 return;
             }
             else{
@@ -133,4 +139,11 @@ class Dbpedia extends Eloquent {
         $city = Dbpedia::where('_id' , '=' , $id);
         return $city;
     }
+
+    public static function getCityDetails( $id )
+    {
+        $city = Dbpedia::where('_id' , '=' , $id)->first();
+        return $city;
+    }
+
 }
