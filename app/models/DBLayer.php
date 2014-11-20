@@ -105,7 +105,7 @@ class DBLayer extends Eloquent {
 		$story->save();
 
 		$id = $story->id; 
-
+		// Log::info('complete');
 		// Log::info($id);
 
 		return $id;

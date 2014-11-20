@@ -28,6 +28,7 @@ class Dbpedia extends Eloquent {
 
     public static function getDbpediaInformation( $city , $storyId )
     {
+        Log::info('trying to get dbpedia');
     	if(isset($city['locality'])) {
     		$cityName = $city['locality'];
 
@@ -36,9 +37,9 @@ class Dbpedia extends Eloquent {
 
             // Check to see if the city name has already been saved
             if( $cityResults != false) {
-                Log::info('There is an entry');
-                Log::info('Result of city ' . $cityResults);
-                Log::info('Story id ' . $storyId);
+                // Log::info('There is an entry');
+                // Log::info('Result of city ' . $cityResults);
+                // Log::info('Story id ' . $storyId);
                 $updateStory = DBLayer::saveDbpedia( $storyId , $cityResults );
                 return;
             }

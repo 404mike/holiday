@@ -1,0 +1,10 @@
+db.createUser( { "user" : "mike",
+                 "pwd": "mike",
+                 "customData" : {},
+                 "roles" : [ { role: "clusterAdmin", db: "admin" },
+			                 { role: "readWrite", db: "story" },
+			                 { role: "readWrite", db: "locations" },
+                             { role: "readAnyDatabase", db: "admin" },
+                             "readWrite"
+                             ] },
+               { w: "majority" , wtimeout: 5000 } )               

@@ -165,7 +165,7 @@ class UploadsController extends \BaseController {
 
 		$data['city'] = Dbpedia::getCityDetails( $city );
 
-		echo '<pre>' , print_r($data['story']) , '</pre>';
+		// echo '<pre>' , print_r($data['story']) , '</pre>';
 
 		return View::make('includes/main', array( 'data' => $data) );	
 	}
