@@ -3,35 +3,35 @@ $('document').ready(function(){
   /**
    *
    */
-	facebookalbum = {
-		getAlbum : function( id ){
+	// facebookalbum = {
+	// 	getAlbum : function( id ){
 
-			$.get("/newstory/facebookalbums/next/"+id,function(result){
-			  var obj = jQuery.parseJSON( result );
+	// 		$.get("/newstory/facebookalbums/next/"+id,function(result){
+	// 		  var obj = jQuery.parseJSON( result );
 
-			  if(obj.next == '') {
-			  	return;
-			  }
+	// 		  if(obj.next == '') {
+	// 		  	return;
+	// 		  }
 
-			  facebookalbum.getAlbum(obj.next);
+	// 		  facebookalbum.getAlbum(obj.next);
 			  
-			  facebookalbum.createAlbumCover(obj);
-			});
-		},
-		createAlbumCover : function( obj ) {
-			if(obj.picture) {
-				$('#facebookalbum').append('<div id="facebookalbum_'+obj.id+'" class="facebookalbum"><i class="fa fa-refresh fa-spin"></i></div>');
+	// 		  facebookalbum.createAlbumCover(obj);
+	// 		});
+	// 	},
+	// 	createAlbumCover : function( obj ) {
+	// 		if(obj.picture) {
+	// 			$('#facebookalbum').append('<div id="facebookalbum_'+obj.id+'" class="facebookalbum"><i class="fa fa-refresh fa-spin"></i></div>');
 
-				$('#facebookalbum_'+obj.id).html('<a href="/create/facebook/'+obj.id+'">'
-					+ '<img width="200" src="' + obj.picture + '"/></a>');
-			}
-		}
-	};
+	// 			$('#facebookalbum_'+obj.id).html('<a href="/create/facebook/'+obj.id+'">'
+	// 				+ '<img width="200" src="' + obj.picture + '"/></a>');
+	// 		}
+	// 	}
+	// };
 
-	// Get facebook albums
-	if ($('#facebookalbum').length > 0) { 
-		facebookalbum.getAlbum('');
-	}
+	// // Get facebook albums
+	// if ($('#facebookalbum').length > 0) { 
+	// 	facebookalbum.getAlbum('');
+	// }
 
 	/*************************************************************************************************************************************************/
 
@@ -55,75 +55,35 @@ $('document').ready(function(){
 			},
 			success: function(data){ 
 
-				$.each(data.data, function (key, data) {
-
-					if(data.type == 'image') create_story.photo(data);
-					else if(data.type == 'tweet') create_story.tweet(data);
-					else if(data.type == 'facebookfeed') create_story.fbFeed(data);
-				});
-
+				var id = data.id;
 				var geoLoc = data.singleLocation;
 				var geo = geoLoc.split(",");
 				var lat = geo[0];
 				var lng = geo[1];
 
-				reverseGeocoding.transformLatLong(lat , lng);
+				// console.log(data)
+				reverseGeocoding.transformLatLong(lat , lng , id);
 			}
 		});	
 	});
-
-	create_story = {
-
-		photo : function (data) {
-			// console.log('Photo ' + data.created_at)
-			$('#final_data').append(
-				'<div class="story_image"><img src="/photos/'+data.picture+'" /></div>'
-			);
-		},
-
-		tweet : function (data) {
-			// console.log('tweet ' + data)
-			$('#final_data').append('<div class="story_tweet">'+data.message+'</div>');
-		},
-
-		fbFeed : function (data) {
-			// console.log('facebook ' + data)
-
-			var feed = '';
-			if(data.picture) {
-				feed += '<img src="'+data.picture+'" />';
-			}
-			if(data.message) {
-				feed += '<p>'+data.message+'</p>';
-			}
-			if(data.place) {
-				feed += '<p>'+data.place.name+'</p>';
-				feed += '<p>'+data.place.city+'</p>';
-				feed += '<p>'+data.place.country+'</p>';
-			}
-
-			$('#final_data').append('<div class="story_fbfeed">'+feed+'</div>');
-		}
-	};
-
 
 	/*************************************************************************************************************************************************/
 
     reverseGeocoding = {
 
-    	transformLatLong : function(lat , lng) {
+    	transformLatLong : function(lat , lng , id) {
 			geocoder = new google.maps.Geocoder();
 			var lat = parseFloat(lat);
 			var lng = parseFloat(lng);
 			var latlng = new google.maps.LatLng(lat, lng);
-			console.log('lats ' + lat + ' ' + lng)
+			// console.log('lats ' + lat + ' ' + lng)
 			geocoder.geocode({'latLng': latlng}, function(results, status) 
 			{
 				if (status == google.maps.GeocoderStatus.OK) 
 				{
 					if (results[1]) 
 					{
-						var loc = reverseGeocoding.getCityName(results[1]);
+						var loc = reverseGeocoding.getCityName(results[1] , id);
 						console.log(loc)
 					} 
 					else 
@@ -138,7 +98,7 @@ $('document').ready(function(){
 			});
     	},
 
-    	getCityName : function( data ) {
+    	getCityName : function( data , id) {
 				
 			var locationInfo = {};
 
@@ -158,14 +118,15 @@ $('document').ready(function(){
 
 			});  
 
-			reverseGeocoding.getDbpediaEntry(locationInfo); 		
+			reverseGeocoding.getDbpediaEntry(locationInfo , id); 		
     	},
 
-    	getDbpediaEntry : function( cityInfo ) {
+    	getDbpediaEntry : function( cityInfo , id ) {
+    		console.log(cityInfo + ' '  + id)
 			$.ajax({
 				url: '/dbpedia',
 				type: 'POST',
-				data: { city: cityInfo },
+				data: { city: cityInfo , story_id : id },
 				async: true,
 				cache: false,
 				timeout: 30000,
@@ -173,18 +134,64 @@ $('document').ready(function(){
 				    return true;
 				},
 				success: function(data){ 
-					var desc = data.description;
 
-					$('#about_the_city').append('<p>'+desc+'</p>');
-
-					$('#about_the_city').show();
+					window.location.href = '/create/'+id;
 				}
 			});	
     	}
-
     };
 
 	/*************************************************************************************************************************************************/
-
-
 });
+
+
+$('.hide_story').click(function(){
+	id = this.id.replace('hide_item_' , '');
+	$('#edit_item_'+id).hide();
+	$('#hide_item_'+id).hide();
+	$('#show_item_'+id).show();
+});
+
+$('.show_story').click(function(){
+	id = this.id.replace('show_item_' , '');
+	$('#edit_item_'+id).show();
+	$('#hide_item_'+id).show();
+	$('#show_item_'+id).hide();
+});
+
+$('#finish_edit').click(function(){
+
+	var items = {
+		'id' : $('#story_id_edit').val() ,
+		'title' : $('#story_title_edit').val()
+	};
+
+	$('.story_item_container').each(function(i){
+
+		var ta = '';
+		if($(this).children().is('textarea')) {
+			ta = $(this).children('textarea').val();
+		}
+
+		var visible = '';
+		if($(this).is(":visible")) {
+			visible = true;
+		}else{
+			visible = false;
+		}
+
+		var details = {
+			'display' : visible ,
+			'message' : ta
+		}
+
+		var id = this.id.replace('edit_item_' , '');
+		items[id] = details;
+	});
+
+	console.log(items);
+});
+
+
+
+

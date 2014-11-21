@@ -1,6 +1,10 @@
 body {
   padding-top: 50px;
 }
+
+.clear{
+	clear: both;
+}
 .main-content{
   padding: 40px 15px;
   text-align: center;
@@ -69,6 +73,60 @@ body {
 	overflow: scroll;
 	padding: 10px;
 }
+
+.story_item {
+	border: 1px dotted #ccc;
+	margin: 15px;
+}
+
+.hide_story {
+	background: rgb(239, 40, 40);
+	color: #fff;
+	padding: 10px;
+	margin: 10px 0 0;
+	display: block;
+	width: 100px;
+	float: right;
+	cursor: pointer;
+}
+
+.show_story {
+	background: rgb(47, 197, 77);
+	color: #fff;
+	padding: 10px;
+	margin: 0;
+	/*display: block;*/
+	width: 100px;
+	float: right;
+	cursor: pointer;
+	display: none;
+}
+
+.story_item_container {
+	padding: 10px;
+}
+
+.extra_information_area {
+	width: 100%;
+	height: 100px;
+	border: none;
+	resize: none;
+	padding: 10px;
+	border-bottom: 1px dotted #ccc;
+	background: rgb(241, 253, 255);
+}
+
+#finish_edit {
+	background: rgb(221, 218, 229);
+	position: fixed;
+	padding: 10px;
+	width: 200px;
+	top: 375px;
+	margin: 0 0 0 15px;
+	cursor: pointer;
+}
+
+
 
 
 
