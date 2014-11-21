@@ -114,7 +114,7 @@ class DBLayer extends Eloquent {
 	public static function saveDbpedia( $storyId , $city )
 	{
 		$story = DBLayer::where('_id', $storyId)->update(array('dbpedia' => $city));
-		// Log::info('city ' . $city . ' story ' . $storyId);
+		Log::info('city ' . $city . ' story ' . $storyId);
 	}
 
 
