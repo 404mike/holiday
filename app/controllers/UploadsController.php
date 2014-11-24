@@ -112,7 +112,7 @@ class UploadsController extends \BaseController {
 
 		// Log::info($finalData);
 
-		$id = DBLayer::saveFeed($finalData);
+		$id = DBLayer::saveFeed($finalData , $start , $end );
 
 		$response = array(
 			'id' => $id ,
@@ -168,6 +168,12 @@ class UploadsController extends \BaseController {
 		// echo '<pre>' , print_r($data['story']) , '</pre>';
 
 		return View::make('includes/main', array( 'data' => $data) );	
+	}
+
+	public function updateStory()
+	{
+		$data = Input::get('info');
+		$updated = DBLayer::updateStory( $data );
 	}
 
 }

@@ -41,7 +41,9 @@ $('document').ready(function(){
 
 	$('#create_new_story').click(function(){
 
-		$('#upload,#create_new_story').hide();
+		$('#upload,#create_new_story,#total_upload_process').hide();
+
+		$('#create_story_loading').show();
 
 		$.ajax({
 			url: '/fileinfo',
@@ -163,15 +165,11 @@ $('#finish_edit').click(function(){
 
 	var items = {
 		'id' : $('#story_id_edit').val() ,
-		'title' : $('#story_title_edit').val()
+		'title' : $('#story_title_edit').val() ,
+		'items' : {}
 	};
 
 	$('.story_item_container').each(function(i){
-
-		var ta = '';
-		if($(this).children().is('textarea')) {
-			ta = $(this).children('textarea').val();
-		}
 
 		var visible = '';
 		if($(this).is(":visible")) {
@@ -181,15 +179,40 @@ $('#finish_edit').click(function(){
 		}
 
 		var details = {
-			'display' : visible ,
-			'message' : ta
+			'display' : visible
+		}
+
+		var ta = '';
+		if($(this).children().is('textarea')) {
+			ta = $(this).children('textarea').val();
+
+			var details = {
+				'display' : visible ,
+				'message' : ta
+			}
 		}
 
 		var id = this.id.replace('edit_item_' , '');
-		items[id] = details;
+		items['items'][id] = details;
 	});
 
-	console.log(items);
+	$.ajax({
+		url: '/update',
+		type: 'POST',
+		data: { info: items },
+		async: true,
+		cache: false,
+		timeout: 30000,
+		error: function(){
+		    return true;
+		},
+		success: function(data){ 
+
+			// window.location.href = '/create/'+id;
+			console.log(data)
+		}
+	});	
+	// console.log(items);
 });
 
 

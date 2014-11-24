@@ -127,6 +127,8 @@ body {
 }
 
 
-
+#create_story_loading {
+	display: none;
+}
 
 

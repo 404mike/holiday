@@ -12,42 +12,7 @@ class DBLayer extends Eloquent {
 	 protected $collection = 'story';
 	 protected $connection = 'mongodb';
 
-	public static function main()
-	{
-
-		// $foo = DBLayer::where('_id', '4')->update(array('dbpedia'=>'mike'));
-		// $book = new DBLayer(array('_id' => '4'));
-
-// $foo = DBLayer::where('_id', '4')->get()->first();
-// // $data = array('dbpedia' => rand(1,987));
-// // $foo->update($data);
-
-		// // DB::collection('story')->where('_id', 4)->push('items', 'boots');
-		// $data = array('dbpedia' , 'mike');
-		// $story = DBLayer::where('_id' , '=' , '4')->update($data);
-
-		// // $story = new DBLayer;
-		// // $story->user = Auth::user()->id;
-		// // $story->_id = '4';
-		// // $story->title = 'New York test ' . rand(1, 2343423);
-		// // $story->dbpedia = '2323424234';
-		// // $story->mainLoc = 'blah';
-		// // $story->likes = '';
-		// // $story->save();
-
-		// // $id = $story->id; 
-		// // echo $id;
-		// // $foo = DBLayer::where('_id' , '=' , $id)->get();
-		// // $foo->dbpedia = 'sdfs';
-		// // $foo->save();
-
-		$foo = DBLayer::where('_id' , '=' , '5451953d279871c2348b4567')->get();
-		echo '<pre>' , print_r($foo) , ' </pre>';
-
-		return;
-	}
-
-	public static function saveFeed( $data )
+	public static function saveFeed( $data  , $start , $end )
 	{
 		$story = new DBLayer;
 		$story->user = Auth::user()->id;
@@ -102,6 +67,10 @@ class DBLayer extends Eloquent {
 
 		$story->likes = '';
 
+		$story->cover = '';
+
+		$story->weather = self::getWeather( $data['singleLocation'] , $start , $end );
+
 		$story->save();
 
 		$id = $story->id; 
@@ -114,7 +83,7 @@ class DBLayer extends Eloquent {
 	public static function saveDbpedia( $storyId , $city )
 	{
 		$story = DBLayer::where('_id', $storyId)->update(array('dbpedia' => $city));
-		Log::info('city ' . $city . ' story ' . $storyId);
+		// Log::info('city ' . $city . ' story ' . $storyId);
 	}
 
 
@@ -133,5 +102,61 @@ class DBLayer extends Eloquent {
 		// Log::info()
 
 		return $stories;
+	}
+
+	private static function getWeather( $location , $start , $end )
+	{
+		$startDate = date('Y-m-d', $start);
+		$endDate = date('Y-m-d', $end);
+
+		$key = '67bc347696eb92f485cc30c1891c2';
+
+		$url = 'http://api.worldweatheronline.com/free/v2/past-weather.ashx?q='.$location.'&format=json&date='.$startDate.'&enddate='.$endDate.'&key='.$key;
+
+		// Log::info('Location '. $location);
+		// Log::info('start ' . $startDate);
+		// Log::info('end ' . $endDate);
+		// Log::info('url ' . $url);
+
+		$res = file_get_contents($url);
+
+		$json = json_decode($res , true);
+
+		$weather = array();
+
+		foreach($json['data']['weather'] as $j) {
+			$weather[$j['date']] = $j['hourly'][4];
+		}
+
+		return $weather;
+	}
+
+
+	public static function updateStory( $details )
+	{
+		$arr = array();
+		$id = $details['id'];
+		$arr['title'] = $details['title'];
+		// Log::info('title ' . $details['title']);
+		// Log::info('id ' . $id);
+		// $foo['items.0.1.message'] = 'hello wordl';
+
+		foreach($details['items'] as $item => $value) {
+			Log::info('value ' . $item);
+			Log::info($value);
+
+			$itemId = $item - 1;
+
+			Log::info('new id ' . $itemId);
+
+			$arr["items.$itemId.$item.display"] = $value['display'];
+			if(isset($value['message'])) {
+				$arr["items.$itemId.$item.message"] = $value['message'];
+			}
+		}
+
+		Log::info($arr);
+
+		$story = DBLayer::where('_id', $id)->update($arr, array('upsert' => true));
 	}
 }

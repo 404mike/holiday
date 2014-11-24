@@ -41,6 +41,8 @@ Route::group(array('before' => 'auth'), function()
 	// Route::get('create/{type?}/{id?}' , 'UploadsController@createSocialUpload');
 	Route::get('create/{id?}' , 'UploadsController@editStory');
 
+	Route::post('update' , 'UploadsController@updateStory');
+
 	Route::post('fileinfo' , 'UploadsController@getAllData');
 
 	Route::post('upload/file/post' , 'UploadsController@postFile');
@@ -54,3 +56,9 @@ Route::get('story/{id?}' , 'StoryController@getStory');
 
 
 Route::get('db' , 'MongoController@main');
+
+
+// Route::post('update' , function(){
+// 	$data = Input::get('info');
+// 	Log::info($data);
+// });

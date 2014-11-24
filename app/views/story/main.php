@@ -1,9 +1,11 @@
+
+
 <h2><?php echo $story->title; ?></h2>
 
 <div id="story_city_details">
 	<?php
 		$c = json_decode($city , true);
-		echo($c['description'][0]);
+		echo($c['description']);
 	?>
 </div>
 
@@ -17,28 +19,55 @@
 
 <?php
 // echo '<pre>' , print_r($story['mainLoc']) , '</pre>';
+
+$date = '';
+$dayCount = 1;
+
 foreach($story['items'] as $s => $value)
 {
-	echo '<div class="story_item">';
+	$v = $value[$s+1];
 
-	if(array_key_exists('type', $value[$s+1])) {
-		echo '<h2>Type '.$value[$s+1]['type'].'</h2>';
-	}
+	if(isset($v['created_at'])) {
+		// echo '<h2>' . date('Y-m-d' , $v['created_at']) . '</h2>';
+		$itemDate = date('Y-m-d' , $v['created_at']);
 
-	if(array_key_exists('message', $value[$s+1])) {
-		echo '<p>' . $value[$s+1]['message'] . '</p>';
-	}
+		if($date == '') {
+			$date = $itemDate;
+		}
+		elseif($date < $itemDate) {
+			echo '<h2>Day ' . $dayCount . ' - ' . $date . '</h2>';
+			$date = $itemDate;
+			$dayCount++;
 
-	if(array_key_exists('picture', $value[$s+1])) {
-
-		if(preg_match('/http(.?)/', $value[$s+1]['picture'])) {
-			echo '<img src="' . $value[$s+1]['picture'] .'" />';
-		}else {
-			echo '<img src="/photos/' . $value[$s+1]['picture'] .'" />';
+			// echo '<pre>' , print_r($story->weather[$date]) , '</pre>';
 		}
 	}
-	
-	echo '</div>';
+
+	if( $v['display'] != 'false' ) { //
+
+		if($v['type'] == 'text' && $v['message'] == '') continue;
+
+ 		echo '<div class="story_item">';
+
+		if(array_key_exists('type', $v)) {
+			echo '<h2>Type '.$v['type'].'</h2>';
+		}
+
+		if(array_key_exists('message', $v)) {
+			echo '<p>' . $v['message'] . '</p>';
+		}
+
+		if(array_key_exists('picture', $v)) {
+
+			if(preg_match('/http(.?)/', $v['picture'])) {
+				echo '<img width=200 src="' . $v['picture'] .'" />';
+			}else {
+				echo '<img width=200 src="/photos/' . $v['picture'] .'" />';
+			}
+		}
+		
+		echo '</div>';
+	}
 }
 
 ?>
