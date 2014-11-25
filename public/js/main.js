@@ -208,8 +208,11 @@ $('#finish_edit').click(function(){
 		},
 		success: function(data){ 
 
-			// window.location.href = '/create/'+id;
-			console.log(data)
+			$( "#callout-stacked-modals" ).slideUp( 300 )
+										  .delay( 300 )
+										  .fadeIn( 400 )
+										  .delay( 3000 )
+										  .fadeOut();
 		}
 	});	
 	// console.log(items);

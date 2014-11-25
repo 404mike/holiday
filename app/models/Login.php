@@ -1,4 +1,4 @@
-<?php
+// <?php
 
 use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;

@@ -10,10 +10,9 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-social.css" rel="stylesheet">
     <link href="/packages/upload/css/style.css" rel="stylesheet">
-
-
+    <link href="/css/weather-icons.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-social.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

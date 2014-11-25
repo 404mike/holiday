@@ -142,16 +142,16 @@ class DBLayer extends Eloquent {
 		// $foo['items.0.1.message'] = 'hello wordl';
 
 		foreach($details['items'] as $item => $value) {
-			Log::info('value ' . $item);
-			Log::info($value);
+			// Log::info('value ' . $item);
+			// Log::info($value);
 
 			$itemId = $item - 1;
 
-			Log::info('new id ' . $itemId);
+			// Log::info('new id ' . $itemId);
 
 			$arr["items.$itemId.$item.display"] = $value['display'];
 			if(isset($value['message'])) {
-				$arr["items.$itemId.$item.message"] = $value['message'];
+				$arr["items.$itemId.$item.message"] = htmlentities( $value['message'] );
 			}
 		}
 

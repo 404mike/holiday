@@ -102,6 +102,10 @@ body {
 	display: none;
 }
 
+.story_date {
+
+}
+
 .story_item_container {
 	padding: 10px;
 }
@@ -126,9 +130,40 @@ body {
 	cursor: pointer;
 }
 
-
 #create_story_loading {
 	display: none;
 }
 
+.hide_item {
+	display: none;
+}
 
+.show_item {
+	display: block;
+}
+
+.bs-callout {
+	padding: 20px;
+	margin: 20px 0;
+	border: 1px solid #eee;
+	border-left-width: 5px;
+	border-radius: 3px;
+	position: fixed;
+	top: 200px;
+	margin: 0 15px auto;
+	background: white;
+	display: none;
+}
+
+.bs-callout-warning {
+	border-left-color: #f0ad4e;
+}
+
+.weather_temp, .wi {
+	font-size: 3em;
+	margin: 0 10px;
+}
+
+.weather_temp{
+	margin: 0 -10px 0 10px;
+}

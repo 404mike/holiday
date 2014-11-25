@@ -15,16 +15,27 @@ foreach($story['items'] as $s => $value)
 
 	$storyEdit = '';
 	$storyEdit .= '<div class="story_item">';
-		$storyEdit .=  '<div class="story_item_container" id="edit_item_'.$itemId.'">';
+
+		if($item['display'] == 'true') {
+			$display = '';
+			$displayButtonHide = '';
+			$displayButtonShow = 'hide_item';
+		}else{
+			$display = 'hide_item';
+			$displayButtonHide = 'hide_item';
+			$displayButtonShow = 'show_item';
+		}
+
+		$storyEdit .=  '<div class="story_item_container '.$display.'" id="edit_item_'.$itemId.'">';
 		// echo '<p>Type: '. $item['type'] . '</p>';
 		// echo '<pre>' , print_r($item) , '</pre>';
 
 		if($item['type'] == 'text') {
-			$storyEdit .=  '<textarea class="extra_information_area" id="extra_text'.$itemId.'"></textarea>';
+			$storyEdit .=  '<textarea class="extra_information_area" id="extra_text'.$itemId.'">'.$item['message'].'</textarea>';
 		}
 
 		// Message
-		if(array_key_exists('message', $item)) {
+		if(array_key_exists('message', $item) && $item['type'] != 'text') {
 			$storyEdit .=  '<p>' . $item['message'] . '</p>';
 		}
 
@@ -45,8 +56,8 @@ foreach($story['items'] as $s => $value)
 		$storyEdit .=  '</div>';
 		// end container	
 
-		$storyEdit .=  '<span id="hide_item_'.$itemId.'" class="hide_story">Hide</span>';
-		$storyEdit .=  '<span id="show_item_'.$itemId.'" class="show_story">Show</span>';
+		$storyEdit .=  '<span id="hide_item_'.$itemId.'" class="hide_story '.$displayButtonHide.'">Hide</span>';
+		$storyEdit .=  '<span id="show_item_'.$itemId.'" class="show_story '.$displayButtonShow.'">Show</span>';
 		$storyEdit .=  '<div class="clear"></div>';
 
 		
@@ -59,3 +70,9 @@ foreach($story['items'] as $s => $value)
 ?>
 <div id="finish_edit">Finish</div>
 </form>
+
+
+<div class="bs-callout bs-callout-warning" id="callout-stacked-modals">
+    <h4>Success!</h4>
+    <p>Your changes have been saved =)</p>
+</div>
