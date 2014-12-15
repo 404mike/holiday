@@ -55,27 +55,3 @@ Route::group(array('before' => 'auth'), function()
 Route::get('user/{id?}' , 'UserController@outBountProfile');
 
 Route::get('story/{id?}' , 'StoryController@getStory');
-
-
-Route::get('db' , 'MongoController@main');
-
-Route::get('bar' , function(){
-
-	$context = stream_context_create(array('http' => array(
-      'header' => 'Accept: application/rdf+xml, text/rdf+xml, text/xml;q=0.1, application/xml;q=0.1, text/plain;q=0.1',
-  	)));
-// http://dbpedia.org/resource/Buk,_Lesser_Poland_Voivodeship
-  	$uriResult = file_get_contents('http://dbpedia.org/resource/Aberystwyth' , false , $context);
-  	// print_r($uriResult);
-
-$xml = simplexml_load_string($uriResult);
-$json = json_encode($xml);
-$array = json_decode($json,TRUE);
-
-print_r($uriResult);
-
-});
-// Route::post('update' , function(){
-// 	$data = Input::get('info');
-// 	Log::info($data);
-// });
