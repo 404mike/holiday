@@ -166,6 +166,8 @@ class DBLayer extends Eloquent {
 	{
 		$story = DBLayer::where('_id' , '=' , $storyId)->first();
 
+		if($story->user != Auth::user()->id) return;
+
 		// Remove photos
 		foreach($story['items'] as $s => $value) {
 			if($value[$s+1]['type'] == 'image') {
