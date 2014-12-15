@@ -176,4 +176,10 @@ class UploadsController extends \BaseController {
 		$updated = DBLayer::updateStory( $data );
 	}
 
+	public function deleteStory( $id )
+	{
+		$story = DBLayer::deleteStory( $id );
+		return Redirect::to('/home')->withInput()->with('success', 'Story Deleted.');
+	}
+
 }

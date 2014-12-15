@@ -49,9 +49,19 @@
 		'Cloudy' => '' ,
 		'Partly Cloudy' => 'wi wi-cloudy' ,
 		'Clear/Sunny' => '' ,
+		'Sunny' => 'wi wi-day-sunny'
 	);
 
 ?>
+
+<?php
+	if( Auth::user()->id == $story->user ) {
+		echo '<a href="/create/'.$story->id.'">Edit this story</a>';
+		echo '<br />';
+		echo '<a href="/story/'.$story->id.'/delete">Delete this story</a>';
+	}
+?>
+
 
 <h2><?php echo $story->title; ?></h2>
 
@@ -101,14 +111,15 @@ foreach($story['items'] as $s => $value)
 
 			// echo '<pre>' , print_r($story->weather[$date]) , '</pre>';
 
-			$weatherShort = $story->weather[$date];
+			if(isset($story->weather[$date])) {
+				$weatherShort = $story->weather[$date];
 
-			$weatherType = $weatherShort['weatherDesc'][0]['value'];
+				$weatherType = $weatherShort['weatherDesc'][0]['value'];
 
-			echo '<i class="'.$weather[$weatherType].'"></i>';
-			echo '<span class="weather_temp">'.$weatherShort['tempC'] . '</span><i class="wi wi-celsius"></i>';
-			echo '</div>';
-
+				echo '<i class="'.$weather[$weatherType].'"></i>';
+				echo '<span class="weather_temp">'.$weatherShort['tempC'] . '</span><i class="wi wi-celsius"></i>';
+				echo '</div>';			
+			}
 
 			echo '<div class="row">';
 			echo getItemInfo($v);

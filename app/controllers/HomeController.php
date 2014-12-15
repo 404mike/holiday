@@ -26,6 +26,9 @@ class HomeController extends BaseController {
 	{
     	$data['title'] = 'Home';
 		$data['template'] = 'home/main';
+
+		$data['stories'] = DBLayer::getUserStories();
+
 		return View::make('includes/main', array( 'data' => $data) );
 	}
 

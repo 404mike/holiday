@@ -77,18 +77,22 @@ class Dbpedia extends Eloquent {
 	      'header' => 'Accept: application/rdf+xml, text/rdf+xml, text/xml;q=0.1, application/xml;q=0.1, text/plain;q=0.1',
 	  	)));
 
-	  	$uriResult = file_get_contents($rdfURI , false , $context);
+        if($rdfURI != '') {
+            $uriResult = file_get_contents($rdfURI , false , $context);
 
-	    $cityInfo = new SimpleXMLElement($uriResult);
+            $cityInfo = new SimpleXMLElement($uriResult);
 
-	    $xsl = new DOMDocument;
-	    $xsl->load('/var/www/public/xslt/rdf.xsl');
+            $xsl = new DOMDocument;
+            $xsl->load('/var/www/public/xslt/rdf.xsl');
 
-	    // Configure the transformer
-	    $proc = new XSLTProcessor;
-	    $proc->importStyleSheet($xsl); // attach the xsl rules
+            // Configure the transformer
+            $proc = new XSLTProcessor;
+            $proc->importStyleSheet($xsl); // attach the xsl rules
 
-	    $city = $proc->transformToXML($cityInfo);
+            $city = $proc->transformToXML($cityInfo);
+        }else{
+            $city = '';
+        }
 
 	    return $city;
     }
@@ -114,6 +118,7 @@ class Dbpedia extends Eloquent {
 
     private static function addNewCity( $cityName , $result )
     {
+        if($result == '') return;
         $city = new Dbpedia;
 
         $cityInfo = simplexml_load_string($result);

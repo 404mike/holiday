@@ -28,7 +28,7 @@ class DBLayer extends Eloquent {
 		array_push($items, array(
 			$loop => array(
 				'message' => '' ,
-				'display' => 'true' ,
+				'display' => 'false' ,
 				'type'	  => 'text'
 			)
 		));	
@@ -55,7 +55,7 @@ class DBLayer extends Eloquent {
 			array_push($items, array(
 				$loop => array(
 					'message' => '' ,
-					'display' => 'true' , 
+					'display' => 'false' , 
 					'type'	  => 'text'
 				)
 			));			
@@ -93,9 +93,9 @@ class DBLayer extends Eloquent {
 		return $story;
 	}
 
-	public static function getUserStories( $id )
+	public static function getUserStories()
 	{
-		$id = (int) $id;
+		$id = Auth::user()->id;
 		$stories = DBLayer::where('user' , '=' , $id)->get();
 
 		// Log::info($id);
@@ -113,10 +113,10 @@ class DBLayer extends Eloquent {
 
 		$url = 'http://api.worldweatheronline.com/free/v2/past-weather.ashx?q='.$location.'&format=json&date='.$startDate.'&enddate='.$endDate.'&key='.$key;
 
-		// Log::info('Location '. $location);
-		// Log::info('start ' . $startDate);
-		// Log::info('end ' . $endDate);
-		// Log::info('url ' . $url);
+		Log::info('Location '. $location);
+		Log::info('start ' . $startDate);
+		Log::info('end ' . $endDate);
+		Log::info('url ' . $url);
 
 		$res = file_get_contents($url);
 
@@ -124,8 +124,10 @@ class DBLayer extends Eloquent {
 
 		$weather = array();
 
-		foreach($json['data']['weather'] as $j) {
-			$weather[$j['date']] = $j['hourly'][4];
+		if(isset($json['data']['weather'])) {
+			foreach($json['data']['weather'] as $j) {
+				$weather[$j['date']] = $j['hourly'][4];
+			}			
 		}
 
 		return $weather;
@@ -155,8 +157,24 @@ class DBLayer extends Eloquent {
 			}
 		}
 
-		Log::info($arr);
+		// Log::info($arr);
 
 		$story = DBLayer::where('_id', $id)->update($arr, array('upsert' => true));
+	}
+
+	public static function deleteStory( $storyId )
+	{
+		$story = DBLayer::where('_id' , '=' , $storyId)->first();
+
+		// Remove photos
+		foreach($story['items'] as $s => $value) {
+			if($value[$s+1]['type'] == 'image') {
+				// echo '<pre>' , print_r($value) ,'</pre>';
+				unlink('/var/www/app/storage/photos/'.$value[$s+1]['picture']);
+			}			
+		}
+
+		// Delete Story
+		DBLayer::destroy( $storyId );
 	}
 }
