@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://flowing-bonito-795.appspot.com/',
+	'url' => 'http://localhost',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -108,10 +108,10 @@ return array(
 		'Illuminate\Hashing\HashServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
 		'Illuminate\Log\LogServiceProvider',
-		'Shpasser\GaeSupport\Mail\GaeMailServiceProvider',
+		'Illuminate\Mail\MailServiceProvider',
 		'Illuminate\Database\MigrationServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
-		'Shpasser\GaeSupport\Queue\QueueServiceProvider',
+		'Illuminate\Queue\QueueServiceProvider',
 		'Illuminate\Redis\RedisServiceProvider',
 		'Illuminate\Remote\RemoteServiceProvider',
 		'Illuminate\Auth\Reminders\ReminderServiceProvider',

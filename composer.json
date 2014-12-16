@@ -8,7 +8,8 @@
 		"facebook/php-sdk-v4" : "4.0.*",
 		"artdarek/oauth-4-laravel": "dev-master",
 		"jenssegers/mongodb": "*",
-		"ricardoper/twitteroauth": "1.*"
+		"ricardoper/twitteroauth": "1.*",
+		"shpasser/gae-support": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

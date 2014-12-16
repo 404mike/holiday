@@ -25,7 +25,7 @@ class FacebookController extends \BaseController {
 	 */
 	public function nextAlbum( $after='' )
 	{
-		$fb = OAuth::consumer( 'Facebook' );
+		$fb = Artdarek\OAuth\Facade\OAuth::consumer( 'Facebook' );
 
 		if($after != '') {
 			$afterQuery = '&after='.$after;

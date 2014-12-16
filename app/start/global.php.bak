@@ -31,7 +31,7 @@ ClassLoader::addDirectories(array(
 |
 */
 
-/* Log initialization moved to 'app/start/local.php' and 'app/start/production.php' files. */
+Log::useFiles(storage_path().'/logs/laravel.log');
 
 /*
 |--------------------------------------------------------------------------

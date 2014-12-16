@@ -44,7 +44,7 @@ class LoginController extends \BaseController {
 	    $code = Input::get( 'code' );
 
 	    // get fb service
-	    $fb = OAuth::consumer( 'Facebook' );
+	    $fb = Artdarek\OAuth\Facade\OAuth::consumer( 'Facebook' );
 
 	    // check if code is valid
 
@@ -84,7 +84,7 @@ class LoginController extends \BaseController {
 	    $verify = Input::get( 'oauth_verifier' );
 
 	    // get twitter service
-	    $tw = OAuth::consumer( 'Twitter' );
+	    $tw = Artdarek\OAuth\Facade\OAuth::consumer( 'Twitter' );
 
 	    // check if code is valid
 

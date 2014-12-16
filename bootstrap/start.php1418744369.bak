@@ -26,7 +26,7 @@ $app = new Shpasser\GaeSupport\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('homestead','packer-virtualbox-iso'),
+	'local' => array('homestead'),
 
 ));
 

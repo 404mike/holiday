@@ -19,6 +19,10 @@ use Facebook\FacebookRedirectLoginHelper;
 
 Route::get('/', 'HomeController@showWelcome');
 
+Route::get('what' , function(){
+	phpinfo();
+});
+
 Route::get('login', 'LoginController@login');
 Route::get('login/facebook', 'LoginController@loginwithFacebook');
 Route::get('login/twitter', 'LoginController@loginWithTwitter');
